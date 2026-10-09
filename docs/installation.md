@@ -50,6 +50,65 @@ replace github.com/lsgser/gogql => ../gogql
 
 Run `go mod tidy` after editing `go.mod`.
 
+### Where the code lives after `go get`
+
+`go get` does **not** copy gogql into your project tree. The library is stored in your module cache (see `go env GOMODCACHE`), typically:
+
+```text
+$GOMODCACHE/github.com/lsgser/gogql@v<version>/
+```
+
+Your app only records the dependency in **`go.mod`** / **`go.sum`** and imports `github.com/lsgser/gogql`. You organize application code yourself, or use **`gogql init`** for the recommended layout (below).
+
+## Clone the gogql repository
+
+If you download the full source from GitHub, the repository layout looks like this:
+
+```text
+gogql/
+├── LICENSE
+├── README.md
+├── go.mod
+├── go.sum
+│
+├── application.go          # MustApplication, RequestContext, Execute, Subscribe
+├── module.go               # MustModule, ModuleConfig
+├── server.go               # NewServer, playground, WebSocket
+├── resolver.go             # ResolverMap
+├── injector.go             # DI + MustGet
+├── loader.go               # DataLoader registry
+├── auth.go                 # JWT claims on context
+├── config.go               # Playground, Security (MaxDepth)
+│
+├── cmd/
+│   └── gogql/
+│       └── main.go         # CLI: init, version
+│
+├── docs/                   # Documentation (this site)
+├── examples/
+│   ├── README.md
+│   ├── basic/              # Modular SDL demo
+│   ├── subscriptions/
+│   └── database/
+│
+└── internal/
+    ├── merge/              # SDL merge across modules
+    └── scaffold/             # gogql init templates
+```
+
+Clone and install the CLI:
+
+```bash
+git clone https://github.com/lsgser/gogql.git
+cd gogql
+```
+
+Examples in the clone run with:
+
+```bash
+go run ./examples/basic
+```
+
 ## Install the CLI (optional)
 
 The **`gogql`** command scaffolds a new server project.
@@ -89,6 +148,31 @@ cd my-api
 go mod tidy
 go run .
 ```
+
+### Project folder structure after `gogql init`
+
+Running `gogql init my-api` creates a **standalone GraphQL server** that uses the gogql module pattern:
+
+```text
+my-api/
+├── go.mod
+├── main.go
+└── modules/
+    ├── registry.go
+    └── users/
+        ├── module.go           # wires typedefs + resolvers into gogql.MustModule
+        ├── typedefs.go         # embed / JoinTypeDefs / LoadTypeDefsFS
+        ├── resolvers.go        # ResolverMap and resolver funcs
+        └── schema/
+            ├── user.graphql
+            └── query.graphql
+```
+
+This matches the **split-file (Approach B)** layout from [`examples/basic/modules/users`](../examples/basic/modules/users). It is optional: a single `modules/<name>/module.go` with inline `TypeDefs` and `Resolvers` remains valid ([Approach A](modules-and-resolvers.md#approach-a--inline-module-backward-compatible)).
+
+Add features by creating `modules/<name>/` and appending to `modules.All()`. Mix inline and split modules in the same project.
+
+With **`go get` only** (no `init`), use any layout; compose **`gogql.MustModule`** → **`gogql.MustApplication`** → **`gogql.NewServer`** in `main`.
 
 ## Transitive dependencies
 

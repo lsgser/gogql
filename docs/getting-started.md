@@ -14,7 +14,9 @@ Or scaffold from the gogql repo: [Installation — CLI](installation.md#install-
 
 ## 2. Define a module (GraphQL SDL)
 
-A **module** is a slice of schema plus resolvers. Types are written in GraphQL, not as Go structs for the schema itself:
+A **module** is a slice of schema plus resolvers. Types are written in GraphQL, not as Go structs for the schema itself.
+
+The snippet below uses **Approach A** (inline SDL + resolvers in one place)—fully supported and the simplest start. When a module grows, you can split into `.graphql` files and `resolvers.go` without changing the rest of the app ([Modules & resolvers — two approaches](modules-and-resolvers.md#two-ways-to-organize-a-module)).
 
 ```go
 package main
@@ -100,6 +102,6 @@ Each module can declare its own `type Query { ... }`. gogql merges them (see [Mo
 
 ## 5. What’s next
 
-- [Modules & resolvers](modules-and-resolvers.md) — providers, DataLoaders, subscription resolvers
+- [Modules & resolvers](modules-and-resolvers.md) — inline vs split modules, providers, DataLoaders, subscriptions
 - [Server & playground](server-and-playground.md) — paths, Apollo Sandbox, depth limits, WebSockets
 - [`examples/basic`](../examples/basic) in the repository

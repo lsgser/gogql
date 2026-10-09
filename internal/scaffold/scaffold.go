@@ -36,10 +36,14 @@ func Init(opts InitOptions) error {
 	}
 
 	files := map[string]string{
-		"main.go":                 "templates/main.go.tmpl",
-		"go.mod":                  "templates/go.mod.tmpl",
-		"modules/registry.go":     "templates/modules_registry.go.tmpl",
-		"modules/users/module.go": "templates/modules_users_module.go.tmpl",
+		"main.go":                              "templates/main.go.tmpl",
+		"go.mod":                               "templates/go.mod.tmpl",
+		"modules/registry.go":                  "templates/modules_registry.go.tmpl",
+		"modules/users/module.go":              "templates/modules_users_module.go.tmpl",
+		"modules/users/typedefs.go":            "templates/modules_users_typedefs.go.tmpl",
+		"modules/users/resolvers.go":           "templates/modules_users_resolvers.go.tmpl",
+		"modules/users/schema/user.graphql":    "templates/modules_users_schema_user.graphql.tmpl",
+		"modules/users/schema/query.graphql":   "templates/modules_users_schema_query.graphql.tmpl",
 	}
 
 	data := struct {

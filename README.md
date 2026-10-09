@@ -23,7 +23,7 @@ Full details: **[Documentation](docs/README.md)** · **[Installation guide](docs
 ## Features
 
 - **SDL-first schema** — write types in GraphQL, not Go structs
-- **GraphQL Modules** — `Module` with `id`, `typeDefs`, `resolvers`, and `providers`
+- **GraphQL Modules** — inline or split SDL/resolvers per module (`TypeDefs` only, or `.graphql` + `resolvers.go`)
 - **Automatic SDL merge** — multiple modules can each declare `type Query { ... }`
 - **Playground** — GraphiQL or Apollo Sandbox at `/playground` (configurable)
 - **Subscriptions** — [graphql-transport-ws](https://github.com/enisdenjo/graphql-ws) on the GraphQL endpoint
@@ -78,6 +78,7 @@ go run ./examples/database       # SQL, DataLoaders, JWT ContextFunc
 | Guide | Topic |
 |-------|--------|
 | [docs/README.md](docs/README.md) | Index |
+| [features.md](docs/features.md) | DataLoaders, depth limits, feature index |
 | [installation.md](docs/installation.md) | `go get`, CLI, local replace |
 | [getting-started.md](docs/getting-started.md) | First server |
 | [modules-and-resolvers.md](docs/modules-and-resolvers.md) | Modules, DI, loaders, subscriptions |

@@ -1,22 +1,30 @@
 # gogql examples
 
-Each example follows the same **GraphQL Modules** layout as the CLI scaffold:
+Each example uses **gogql modules** (`MustModule` → `MustApplication` → `NewServer`). Module code can be organized in two ways (see [docs](../docs/modules-and-resolvers.md#two-ways-to-organize-a-module)):
+
+| Style | Layout |
+|-------|--------|
+| **A — inline** | One `module.go` with `TypeDefs` + `Resolvers` |
+| **B — split** | `module.go` + optional `typedefs.go`, `resolvers.go`, `schema/*.graphql` |
+
+The CLI scaffold generates **B** for `users`; you can keep or simplify any module to **A**.
 
 ```
 example/
-  main.go              # DB/JWT wiring, gogql.NewApplication, gogql.NewServer
+  main.go
   modules/
-    registry.go        # All() — compose modules for the application
+    registry.go
     <name>/
-      module.go        # SDL typeDefs, ResolverMap, Providers, SubscriptionResolvers
+      module.go
+      ... optional split files ...
 ```
 
 Run from the repository root:
 
 | Example | Command | Demonstrates |
 |---------|---------|--------------|
-| [basic](basic) | `go run ./examples/basic` | SDL modules, merged `Query`, playground |
+| [basic](basic) | `go run ./examples/basic` | **Mixed A+B**: `users` split SDL/resolvers, `greeting` inline; merged `Query` |
 | [subscriptions](subscriptions) | `go run ./examples/subscriptions` | `SubscriptionResolvers`, WebSocket transport |
-| [database](database) | `go run ./examples/database` | Providers, SQL repository, JWT `ContextFunc`, DataLoaders |
+| [database](database) | `go run ./examples/database` | **Inline module** + providers, SQL, JWT, DataLoaders |
 
 All examples use **`gogql.MustModule` → `gogql.MustApplication` → `gogql.NewServer`** — no direct graph-gophers HTTP wiring.

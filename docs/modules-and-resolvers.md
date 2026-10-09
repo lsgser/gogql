@@ -1,26 +1,121 @@
 # Modules & resolvers
 
-## Module shape
+## Two ways to organize a module
+
+gogql stays **backward compatible**: existing code that passes a single `TypeDefs` string and `Resolvers` in one place continues to work unchanged. Optional fields (`TypeDefParts`, `TypeDefFiles`, `TypeDefsFS`) only add ways to build that same SDL string from multiple sources.
+
+You can **mix both styles in one app**—for example one module in a single file and another split across `schema/` and `resolvers.go` ([`examples/basic`](../examples/basic) does this).
+
+| | **Approach A — inline (classic)** | **Approach B — split files (optional)** |
+|---|-----------------------------------|----------------------------------------|
+| Best for | Small modules, quick prototypes, tutorials | Larger features, many types, teams |
+| SDL | One `TypeDefs` string (raw string or const) | `.graphql` embed, `TypeDefParts`, or files |
+| Resolvers | Inline `ResolverMap` or struct in `module.go` | `resolvers.go` (+ optional `subscription.go`) |
+| Example in repo | [`greeting`](../examples/basic/modules/greeting/module.go), [`database` users](../examples/database/modules/users/module.go) | [`users`](../examples/basic/modules/users) |
+
+---
+
+## Approach A — inline module (backward compatible)
+
+Everything in one file (or one `TypeDefs` string anywhere you prefer):
 
 ```go
 gogql.MustModule(gogql.ModuleConfig{
-    ID:        "users",           // unique per application
-    TypeDefs:  `... GraphQL SDL ...`,
-    Resolvers: /* see below */,
-    SubscriptionResolvers: /* optional struct with methods */,
-    Providers: []gogql.Provider{
-        gogql.Provide(&UsersService{}),
-    },
+    ID: "greeting",
+    TypeDefs: `
+        type Query { hello: String! }
+    `,
+    Resolvers: gogql.NewResolverMap().Query("hello", func(_ context.Context) (string, error) {
+        return "Hello", nil
+    }),
 })
 ```
 
-| Field | Purpose |
-|-------|---------|
-| `ID` | Unique module name |
-| `TypeDefs` | GraphQL SDL for this module |
-| `Resolvers` | `*ResolverMap` or a graph-gophers-compatible root struct |
-| `SubscriptionResolvers` | Struct with **methods** for subscription fields (required for WebSocket subscriptions) |
-| `Providers` | Services on the request-scoped injector |
+No `TypeDefParts`, `TypeDefFiles`, or `TypeDefsFS` required. This matches the original gogql API and [Getting started](getting-started.md).
+
+---
+
+## Approach B — split typedefs and resolvers
+
+Same `MustModule` call; SDL and resolver wiring are split across files for clarity.
+
+```text
+modules/users/
+├── module.go           # wires TypeDefs + Resolvers
+├── typedefs.go         # embed or JoinTypeDefs
+├── resolvers.go        # ResolverMap + handler funcs
+└── schema/
+    ├── user.graphql    # types
+    └── query.graphql   # Query fields for this module
+```
+
+**Embedded `.graphql` files** (see [`examples/basic/modules/users`](../examples/basic/modules/users)):
+
+```go
+// typedefs.go
+//go:embed schema/*.graphql
+var schemaFS embed.FS
+
+func typeDefs() string {
+    return gogql.MustLoadTypeDefsFS(schemaFS, "schema")
+}
+```
+
+```go
+// module.go
+gogql.MustModule(gogql.ModuleConfig{
+    ID:        "users",
+    TypeDefs:  typeDefs(),
+    Resolvers: resolvers(), // from resolvers.go
+})
+```
+
+**Multiple SDL sources on `ModuleConfig`** (no embed):
+
+```go
+gogql.ModuleConfig{
+    ID: "users",
+    TypeDefs: userTypesSDL,
+    TypeDefParts: []string{queryFieldsSDL},
+    TypeDefFiles: []string{"modules/users/schema/extra.graphql"},
+}
+```
+
+Helpers: `gogql.JoinTypeDefs`, `gogql.LoadTypeDefsFS`, `gogql.MustLoadTypeDefsFS`.
+
+Resolvers do not require a new API: use `func resolvers() *gogql.ResolverMap` in `resolvers.go` and pass it from `module.go`. Subscription methods can live in `subscription.go` and are still set via `SubscriptionResolvers`.
+
+You can also **gradually migrate** Approach A → B: move SDL into `TypeDefParts` or embed first, keep the same `TypeDefs` string temporarily, then delete duplication once embed is in place.
+
+---
+
+## ModuleConfig reference
+
+```go
+gogql.MustModule(gogql.ModuleConfig{
+    ID:        "users",
+    TypeDefs:  `...`,              // required unless merged parts/files/FS produce SDL
+    Resolvers: /* required for execution */,
+    SubscriptionResolvers: /* optional */,
+    Providers: []gogql.Provider{ /* optional */ },
+    // optional SDL extensions (Approach B):
+    TypeDefParts: []string{ ... },
+    TypeDefFiles: []string{ "path/to/extra.graphql" },
+    TypeDefsFS:     schemaFS,
+    TypeDefsFSPath: "schema",
+})
+```
+
+| Field | Required? | Purpose |
+|-------|-----------|---------|
+| `ID` | yes | Unique module name |
+| `TypeDefs` | yes* | Primary SDL string (*or supply SDL only via parts/files/FS) |
+| `Resolvers` | for queries/mutations | `*ResolverMap` or graph-gophers root struct |
+| `SubscriptionResolvers` | for subscriptions | Struct with **methods** (not `ResolverMap`) |
+| `Providers` | no | Injector services |
+| `TypeDefParts` | no | Extra SDL fragments merged after `TypeDefs` |
+| `TypeDefFiles` | no | `.graphql` paths on disk |
+| `TypeDefsFS` / `TypeDefsFSPath` | no | Embedded or virtual `.graphql` tree |
 
 ## ResolverMap (queries & mutations)
 
@@ -58,6 +153,8 @@ svc := gogql.MustGet[*UsersService](ctx)
 The server attaches the injector on each request via `Application.RequestContext`.
 
 ## DataLoaders
+
+See also: [Features — DataLoaders](features.md#dataloaders) (lifecycle, `LoadMany`, example links).
 
 Register factories on the **application** (one loader instance per HTTP/WebSocket request):
 

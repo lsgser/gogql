@@ -1,5 +1,7 @@
 package gogql
 
+import "io/fs"
+
 // Module is a schema slice with its own SDL, resolvers, and providers (graphql-modules style).
 type Module struct {
 	id                    string
@@ -10,10 +12,21 @@ type Module struct {
 }
 
 // ModuleConfig configures a GraphQL module.
+//
+// Backward compatible: only ID, TypeDefs, and Resolvers are required—the same as earlier gogql versions.
+// TypeDefParts, TypeDefFiles, and TypeDefsFS are optional additions for splitting SDL across files;
+// leave them zero/unset to keep a single inline TypeDefs string.
 type ModuleConfig struct {
-	ID        string
-	TypeDefs  string
-	Resolvers any
+	ID       string
+	TypeDefs string
+	// TypeDefParts are optional extra SDL fragments merged after TypeDefs.
+	TypeDefParts []string
+	// TypeDefFiles are optional paths to .graphql files merged after TypeDefs and TypeDefParts.
+	TypeDefFiles []string
+	// TypeDefsFS optionally loads .graphql files under TypeDefsFSPath from embed.FS (or any fs.FS).
+	TypeDefsFS     fs.FS
+	TypeDefsFSPath string
+	Resolvers      any
 	// SubscriptionResolvers is a struct (or pointer) with methods for Subscription fields.
 	// graph-gophers requires methods for subscription roots; use this instead of ResolverMap.Subscription.
 	SubscriptionResolvers any
@@ -25,12 +38,13 @@ func NewModule(cfg ModuleConfig) (*Module, error) {
 	if cfg.ID == "" {
 		return nil, errModuleIDRequired
 	}
-	if cfg.TypeDefs == "" {
-		return nil, errModuleTypeDefsRequired
+	typeDefs, err := compileModuleTypeDefs(cfg)
+	if err != nil {
+		return nil, err
 	}
 	return &Module{
 		id:                    cfg.ID,
-		typeDefs:              cfg.TypeDefs,
+		typeDefs:              typeDefs,
 		resolvers:             cfg.Resolvers,
 		subscriptionResolvers: cfg.SubscriptionResolvers,
 		providers:             cfg.Providers,

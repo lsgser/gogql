@@ -66,6 +66,8 @@ ch, err := app.Subscribe(ctx, query, operationName, variables)
 
 ## Security: query depth
 
+See also: [Features — query depth limit](features.md#query-depth-limit).
+
 Limit nesting depth to reduce abusive queries:
 
 ```go

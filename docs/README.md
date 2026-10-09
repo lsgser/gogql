@@ -6,11 +6,12 @@
 
 | Document | Description |
 |----------|-------------|
-| [Installation](installation.md) | Requirements, `go get`, CLI install, versioning |
+| [Installation](installation.md) | Requirements, `go get`, repo & project folder layout, CLI |
 | [Getting started](getting-started.md) | First module, server, playground |
+| **[Features](features.md)** | **DataLoaders, depth limits, DI, JWT, subscriptions (index)** |
 | [Modules & resolvers](modules-and-resolvers.md) | SDL modules, `ResolverMap`, DI, DataLoaders |
-| [Server & playground](server-and-playground.md) | HTTP, playground, subscriptions, security limits |
-| [Database & JWT](database-and-auth.md) | SQL repositories, DataLoaders, JWT `ContextFunc` |
+| [Server & playground](server-and-playground.md) | HTTP, playground, subscriptions, `MaxDepth` |
+| [Database & JWT](database-and-auth.md) | SQL repositories, DataLoaders + batch SQL, JWT `ContextFunc` |
 
 ## Examples in the repo
 
