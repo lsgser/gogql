@@ -58,12 +58,16 @@ Step-by-step: [Getting started](docs/getting-started.md)
 
 ## CLI
 
+Same idea as [gofreight](https://github.com/lsgser/gofreight): install the **command** separately from the library.
+
 ```bash
 go install github.com/lsgser/gogql/cmd/gogql@latest
+gogql version          # lists all commands
 gogql init my-api
+gogql module add posts # typedefs, resolvers, schema, registry
 ```
 
-From a clone: `go run ./cmd/gogql init my-api`. See [Installation](docs/installation.md).
+Or pin the CLI in your app with Go 1.24+: `go get -tool github.com/lsgser/gogql/cmd/gogql@latest` → `go tool gogql init my-api`. Scaffolded projects include the `tool` line in `go.mod`. See [Installation — CLI](docs/installation.md#install-the-cli-optional).
 
 ## Examples
 

@@ -1,0 +1,22 @@
+package modules
+
+import (
+	"github.com/lsgser/gogql"
+{{range .Imports}}
+	"{{$.ModulePath}}/modules/{{.}}"
+{{end}}
+)
+
+func All() []*gogql.Module {
+	return []*gogql.Module{
+{{range .Imports}}		{{.}}.Module(),
+{{end}}	}
+}
+
+func LoaderFactories() gogql.LoaderFactories {
+	out := make(gogql.LoaderFactories)
+{{range .LoaderPackages}}	for k, v := range {{.}}.LoaderFactories() {
+		out[k] = v
+	}
+{{end}}	return out
+}

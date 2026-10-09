@@ -1,0 +1,30 @@
+package {{.PackageName}}
+
+import (
+	"context"
+
+	"github.com/graph-gophers/graphql-go"
+	"github.com/lsgser/gogql"
+)
+
+type {{.TypeName}} struct {
+	ID   graphql.ID
+	Name string
+}
+
+func resolvers() *gogql.ResolverMap {
+	return gogql.NewResolverMap().
+		Query("{{.QueryOne}}", resolve{{.TypeName}}).
+		Query("{{.QueryMany}}", resolve{{.TypeName}}List)
+}
+
+func resolve{{.TypeName}}(_ context.Context, args struct{ ID graphql.ID }) (*{{.TypeName}}, error) {
+	return &{{.TypeName}}{ID: args.ID, Name: "{{.TypeName}} " + string(args.ID)}, nil
+}
+
+func resolve{{.TypeName}}List(_ context.Context) ([]*{{.TypeName}}, error) {
+	return []*{{.TypeName}}{
+		{ID: "1", Name: "{{.TypeName}} 1"},
+		{ID: "2", Name: "{{.TypeName}} 2"},
+	}, nil
+}

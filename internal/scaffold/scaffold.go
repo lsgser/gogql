@@ -20,7 +20,7 @@ import (
 	"text/template"
 )
 
-//go:embed templates/*
+//go:embed all:templates
 var templateFiles embed.FS
 
 // InitOptions configures project scaffolding.
@@ -84,6 +84,10 @@ func Init(opts InitOptions) error {
 		if err := os.WriteFile(target, buf.Bytes(), 0o644); err != nil {
 			return err
 		}
+	}
+	proj, err := FindProject(dir)
+	if err == nil {
+		_ = SyncRegistry(proj)
 	}
 	return nil
 }

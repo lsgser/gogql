@@ -126,27 +126,64 @@ go run ./examples/basic
 
 ## Install the CLI (optional)
 
-The **`gogql`** command scaffolds a new server project.
+The **`gogql`** command scaffolds new server projects. Like [gofreight](https://github.com/lsgser/gofreight), the CLI is a **separate command** from the library: `go get github.com/lsgser/gogql@latest` adds the **library** to your app’s `go.mod` only; it does **not** put `gogql` on your `PATH`.
 
-**From a clone of this repository:**
+Pick one way to run the CLI:
+
+### A — Global install (same as gofreight’s quick start)
+
+```bash
+go install github.com/lsgser/gogql/cmd/gogql@latest
+export PATH="$PATH:$(go env GOPATH)/bin"   # once per machine
+gogql version
+gogql init my-api
+```
+
+### B — Per-project tool (Go 1.24+, no global install)
+
+Inside your app module (after `go mod init`):
+
+```bash
+go get -tool github.com/lsgser/gogql/cmd/gogql@latest
+go tool gogql version
+go tool gogql init my-api
+```
+
+This adds a `tool github.com/lsgser/gogql/cmd/gogql` line to `go.mod`. Upgrade with `go get -tool github.com/lsgser/gogql/cmd/gogql@latest` or `go get tool`.
+
+### C — From a clone of this repository
 
 ```bash
 git clone https://github.com/lsgser/gogql.git
 cd gogql
 go install ./cmd/gogql
-```
-
-Ensure `$GOPATH/bin` or `$HOME/go/bin` is on your `PATH`. Then:
-
-```bash
-gogql version
-gogql init my-api
-```
-
-**Without installing globally** (from the repo root):
-
-```bash
+# or without installing:
 go run ./cmd/gogql init my-api
+```
+
+Projects created with **`gogql init`** already include the `tool` line in `go.mod`, so after `cd my-api` and `go mod tidy` you can use **`go tool gogql`** for generators without a global install.
+
+### Commands
+
+Run **`gogql version`** (or **`gogql help`**) to print the CLI version and the full command list.
+
+| Command | Description |
+|---------|-------------|
+| `gogql init [dir]` | New app with `main.go`, `modules/users/` (split SDL + resolvers), playground |
+| `gogql module add <name>` | New module: `module.go`, `typedefs.go`, `resolvers.go`, `schema/*.graphql`; updates `modules/registry.go` |
+| `gogql module typedefs <name>` | Add `typedefs.go` + GraphQL schema files (creates `module.go` if missing) |
+| `gogql module resolvers <name>` | Add `resolvers.go` (+ `module.go` if missing); refreshes registry |
+| `gogql module schema <name>` | Add only `schema/*.graphql` under the module |
+| `gogql version` | Version and command summary |
+
+Module commands must run from your **app root** (where `go.mod` lives). Use **`-force`** to overwrite generated files. Optional **`-C /path/to/app`** sets the project directory.
+
+Example after `gogql init my-api`:
+
+```bash
+cd my-api
+go tool gogql module add posts
+go run .
 ```
 
 ### `gogql init` flags
@@ -156,10 +193,11 @@ go run ./cmd/gogql init my-api
 | `-module` | directory name | Go module path for the new project (e.g. `github.com/you/my-api`) |
 | `-gogql` | `../gogql` | `replace` path when developing gogql locally; omit from generated `go.mod` when using only `go get` |
 
-After `init`:
+After `init` (global `gogql` or `go tool gogql`):
 
 ```bash
 cd my-api
+go mod tidy
 go mod tidy
 go run .
 ```

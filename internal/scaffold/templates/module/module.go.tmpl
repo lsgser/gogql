@@ -1,0 +1,11 @@
+package {{.PackageName}}
+
+import "github.com/lsgser/gogql"
+
+func Module() *gogql.Module {
+	return gogql.MustModule(gogql.ModuleConfig{
+		ID:        "{{.ModuleID}}",
+		TypeDefs:  typeDefs(),
+		Resolvers: resolvers(),
+	})
+}
