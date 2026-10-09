@@ -1,0 +1,30 @@
+package main
+
+import (
+	"log"
+
+	"{{.ModulePath}}/modules"
+	"github.com/lsgser/gogql"
+)
+
+func main() {
+	app := gogql.MustApplication(gogql.ApplicationConfig{
+		Modules: modules.All(),
+		Security: gogql.SecurityConfig{
+			MaxDepth: 15,
+		},
+		Loaders: modules.LoaderFactories(),
+	})
+
+	server := gogql.NewServer(app, gogql.ServerConfig{
+		Playground: &gogql.PlaygroundConfig{
+			Enabled: true,
+			Path:    "/playground",
+			UI:      gogql.PlaygroundGraphiQL,
+		},
+	})
+
+	log.Println("GraphQL API:  http://localhost:8080/graphql")
+	log.Println("Playground:   http://localhost:8080/playground")
+	log.Fatal(server.ListenAndServe(":8080"))
+}
