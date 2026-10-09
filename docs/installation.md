@@ -70,15 +70,8 @@ gogql/
 ├── README.md
 ├── go.mod
 ├── go.sum
-│
-├── application.go          # MustApplication, RequestContext, Execute, Subscribe
-├── module.go               # MustModule, ModuleConfig
-├── server.go               # NewServer, playground, WebSocket
-├── resolver.go             # ResolverMap
-├── injector.go             # DI + MustGet
-├── loader.go               # DataLoader registry
-├── auth.go                 # JWT claims on context
-├── config.go               # Playground, Security (MaxDepth)
+├── doc.go                  # Package docs (import github.com/lsgser/gogql)
+├── export.go               # Public API re-exports
 │
 ├── cmd/
 │   └── gogql/
@@ -92,9 +85,21 @@ gogql/
 │   └── database/
 │
 └── internal/
+    ├── core/               # Library implementation (package core)
+    │   ├── application.go  # MustApplication, Execute, Subscribe
+    │   ├── module.go       # MustModule, ModuleConfig, typedef loading
+    │   ├── server.go       # NewServer, HTTP, WebSocket
+    │   ├── resolver.go     # ResolverMap
+    │   ├── injector.go     # DI + MustGet
+    │   ├── loader.go       # DataLoader registry
+    │   ├── auth.go         # AuthClaims on context
+    │   ├── config.go       # Playground, Security (MaxDepth)
+    │   └── testdata/       # Tests for SDL loading
     ├── merge/              # SDL merge across modules
-    └── scaffold/             # gogql init templates
+    └── scaffold/           # gogql init templates
 ```
+
+Applications still use a single import: `import "github.com/lsgser/gogql"`. You do not import `internal/core` from outside this module.
 
 Clone and install the CLI:
 

@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| DataLoader
+|--------------------------------------------------------------------------
+|
+| Per-request DataLoader registry and helpers (LoaderFactories, LoadersFromContext,
+| NewStringKeyLoader) built on graph-gophers/dataloader.
+|
+*/
+
+package core
 
 import (
 	"context"

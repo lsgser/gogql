@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Auth claims
+|--------------------------------------------------------------------------
+|
+| AuthClaims on context (WithAuthClaims, AuthClaimsFrom) for use after
+| JWT or session validation in ServerConfig.ContextFunc.
+|
+*/
+
+package core
 
 import "context"
 

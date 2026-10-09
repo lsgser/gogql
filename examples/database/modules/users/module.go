@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — users module (inline)
+|--------------------------------------------------------------------------
+|
+| Approach A: inline TypeDefs, providers, ResolverMap, and user DataLoader.
+|
+*/
+
 package users
 
 import (

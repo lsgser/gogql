@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| Security tests
+|--------------------------------------------------------------------------
+|
+| Tests SecurityConfig.MaxDepth query validation.
+|
+*/
+
+package core_test
 
 import (
 	"context"

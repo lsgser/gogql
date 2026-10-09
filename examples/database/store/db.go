@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — SQLite setup
+|--------------------------------------------------------------------------
+|
+| Opens SQLite, creates the users table, and seeds demo rows.
+|
+*/
+
 package store
 
 import (

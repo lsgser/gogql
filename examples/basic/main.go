@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — entrypoint
+|--------------------------------------------------------------------------
+|
+| Wires modules.All() into MustApplication and starts the HTTP server
+| with GraphiQL playground.
+|
+*/
+
 package main
 
 import (

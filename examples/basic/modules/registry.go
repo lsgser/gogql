@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — module registry
+|--------------------------------------------------------------------------
+|
+| Lists all gogql modules composed into this demo application.
+|
+*/
+
 package modules
 
 import (

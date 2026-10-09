@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| Project scaffold
+|--------------------------------------------------------------------------
+|
+| gogql init: writes a new server project from embedded templates
+| (main.go, modules/, schema/*.graphql).
+|
+*/
+
 package scaffold
 
 import (

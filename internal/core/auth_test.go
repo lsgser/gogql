@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| Auth tests
+|--------------------------------------------------------------------------
+|
+| Tests AuthClaims storage and retrieval on context.
+|
+*/
+
+package core_test
 
 import (
 	"context"

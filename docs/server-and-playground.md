@@ -17,6 +17,8 @@ http.ListenAndServe(":8080", server.Handler())
 server.ListenAndServe(":8080")
 ```
 
+To run behind **[Gin](https://github.com/gin-gonic/gin)** (REST + GraphQL on one engine), see [Gin integration](gin.md).
+
 ## HTTP API
 
 | Method | Path | Behavior |
@@ -27,7 +29,7 @@ server.ListenAndServe(":8080")
 | `GET` | `HealthPath` | Liveness text `ok` |
 | `OPTIONS` | `GraphQLPath` | CORS preflight |
 
-CORS is permissive (`Access-Control-Allow-Origin: *`) for local development. Put a reverse proxy or wrapper in front for production hardening.
+CORS is permissive (`Access-Control-Allow-Origin: *`) for local development. Put a reverse proxy or wrapper in front for production hardening. See [Deployment](deployment.md).
 
 ## Playground
 

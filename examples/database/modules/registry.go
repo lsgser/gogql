@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — module registry
+|--------------------------------------------------------------------------
+|
+| Composes users module and exposes LoaderFactories for the application.
+|
+*/
+
 package modules
 
 import (

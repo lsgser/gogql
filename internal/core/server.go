@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Server
+|--------------------------------------------------------------------------
+|
+| Yoga-style HTTP server: GraphQL POST/GET, playground route, health check,
+| optional graphql-transport-ws subscriptions, and ContextFunc (e.g. JWT).
+|
+*/
+
+package core
 
 import (
 	"context"

@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — greeting module (inline)
+|--------------------------------------------------------------------------
+|
+| Approach A: single file with inline TypeDefs and ResolverMap (hello query).
+|
+*/
+
 package greeting
 
 import (

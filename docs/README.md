@@ -11,6 +11,8 @@
 | **[Features](features.md)** | **DataLoaders, depth limits, DI, JWT, subscriptions (index)** |
 | [Modules & resolvers](modules-and-resolvers.md) | SDL modules, `ResolverMap`, DI, DataLoaders |
 | [Server & playground](server-and-playground.md) | HTTP, playground, subscriptions, `MaxDepth` |
+| [Gin integration](gin.md) | Mount GraphQL on [Gin](https://github.com/gin-gonic/gin) with REST routes |
+| [Deployment](deployment.md) | Production config, TLS, Docker, health checks, WebSocket |
 | [Database & JWT](database-and-auth.md) | SQL repositories, DataLoaders + batch SQL, JWT `ContextFunc` |
 
 ## Examples in the repo

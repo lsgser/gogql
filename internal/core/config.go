@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Configuration types
+|--------------------------------------------------------------------------
+|
+| PlaygroundConfig, PlaygroundUI, SecurityConfig (MaxDepth), and helpers
+| that map security settings to graph-gophers schema options.
+|
+*/
+
+package core
 
 import "github.com/graph-gophers/graphql-go"
 

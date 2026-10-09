@@ -1,4 +1,13 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Playground UI
+|--------------------------------------------------------------------------
+|
+| Renders GraphiQL and Apollo Sandbox HTML pages for ServerConfig.Playground.
+|
+*/
+
+package core
 
 import "fmt"
 

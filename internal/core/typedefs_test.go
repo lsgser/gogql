@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| Type definitions tests
+|--------------------------------------------------------------------------
+|
+| Tests backward-compatible inline TypeDefs and merged SDL from embed.FS.
+|
+*/
+
+package core_test
 
 import (
 	"embed"

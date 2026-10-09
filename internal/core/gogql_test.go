@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| Integration tests
+|--------------------------------------------------------------------------
+|
+| Tests merged SDL modules, ResolverMap, and multi-module Query composition.
+|
+*/
+
+package core_test
 
 import (
 	"context"

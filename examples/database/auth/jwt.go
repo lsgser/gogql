@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — JWT auth
+|--------------------------------------------------------------------------
+|
+| Demo HS256 JWT minting and ServerConfig.ContextFunc for gogql.AuthClaims.
+|
+*/
+
 package auth
 
 import (

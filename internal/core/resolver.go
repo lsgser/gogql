@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Resolver map
+|--------------------------------------------------------------------------
+|
+| ResolverMap for Query/Mutation fields, dynamic root composition, and
+| merging module resolvers with subscription roots (compositeRoot).
+|
+*/
+
+package core
 
 import (
 	"fmt"

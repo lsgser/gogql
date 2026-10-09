@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| gogql CLI
+|--------------------------------------------------------------------------
+|
+| Command-line entrypoint: gogql init (scaffold project) and gogql version.
+|
+*/
+
 package main
 
 import (

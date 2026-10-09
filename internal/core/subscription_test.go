@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| Subscription tests
+|--------------------------------------------------------------------------
+|
+| Tests Application.Subscribe with SubscriptionResolvers struct methods.
+|
+*/
+
+package core_test
 
 import (
 	"context"

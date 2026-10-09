@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Provider
+|--------------------------------------------------------------------------
+|
+| Module provider registration: Provide, ProvideToken, and ProvideFactory
+| for wiring services into the application injector.
+|
+*/
+
+package core
 
 import "reflect"
 

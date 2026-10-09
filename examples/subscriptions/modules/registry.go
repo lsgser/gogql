@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Subscriptions example — module registry
+|--------------------------------------------------------------------------
+|
+| Registers the events module for the subscriptions demo.
+|
+*/
+
 package modules
 
 import (

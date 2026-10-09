@@ -1,4 +1,13 @@
-package gogql_test
+/*
+|--------------------------------------------------------------------------
+| DataLoader tests
+|--------------------------------------------------------------------------
+|
+| Tests per-request loader registry and LoadMany batching.
+|
+*/
+
+package core_test
 
 import (
 	"context"

@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — users resolvers
+|--------------------------------------------------------------------------
+|
+| ResolverMap and User type for the user(id) query field.
+|
+*/
+
 package users
 
 import (

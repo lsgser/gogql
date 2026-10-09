@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Module
+|--------------------------------------------------------------------------
+|
+| Defines a GraphQL module: SDL type definitions, resolvers, providers,
+| and optional subscription resolvers (ModuleConfig / MustModule).
+|
+*/
+
+package core
 
 import "io/fs"
 

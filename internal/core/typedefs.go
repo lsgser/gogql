@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Type definitions (SDL)
+|--------------------------------------------------------------------------
+|
+| Merges module SDL from strings, files, and embed.FS (JoinTypeDefs,
+| LoadTypeDefsFS) for inline or split schema layouts.
+|
+*/
+
+package core
 
 import (
 	"fmt"

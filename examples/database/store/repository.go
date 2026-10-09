@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — user repository
+|--------------------------------------------------------------------------
+|
+| SQL access layer for users (ByID, List) injected into gogql resolvers.
+|
+*/
+
 package store
 
 import (

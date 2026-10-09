@@ -20,6 +20,8 @@ import "github.com/lsgser/gogql"
 
 Full details: **[Documentation](docs/README.md)** · **[Installation guide](docs/installation.md)**
 
+Library code lives under **`internal/core/`**; the repo root re-exports the public API so your import stays `github.com/lsgser/gogql`. See [Installation — repository layout](docs/installation.md#clone-the-gogql-repository).
+
 ## Features
 
 - **SDL-first schema** — write types in GraphQL, not Go structs
@@ -83,6 +85,8 @@ go run ./examples/database       # SQL, DataLoaders, JWT ContextFunc
 | [getting-started.md](docs/getting-started.md) | First server |
 | [modules-and-resolvers.md](docs/modules-and-resolvers.md) | Modules, DI, loaders, subscriptions |
 | [server-and-playground.md](docs/server-and-playground.md) | HTTP, playground, WebSocket, limits |
+| [gin.md](docs/gin.md) | GraphQL with Gin alongside REST |
+| [deployment.md](docs/deployment.md) | Production build, TLS, Docker, K8s sketch |
 | [database-and-auth.md](docs/database-and-auth.md) | SQL, repositories, JWT auth |
 
 ## License

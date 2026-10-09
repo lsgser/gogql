@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Injector
+|--------------------------------------------------------------------------
+|
+| Request-scoped dependency injection (providers, MustGet, WithInjector)
+| similar to graphql-modules service locators.
+|
+*/
+
+package core
 
 import (
 	"context"

@@ -9,6 +9,7 @@ Quick index of cross-cutting gogql capabilities. Each feature works with **inlin
 | **Dependency injection** | `ModuleConfig.Providers` | [Modules — DI](modules-and-resolvers.md#dependency-injection) | [`examples/database`](../examples/database) |
 | **JWT / request context** | `ServerConfig.ContextFunc` | [Database & JWT](database-and-auth.md) | [`examples/database`](../examples/database) |
 | **Playground** | `ServerConfig.Playground` | [Server & playground](server-and-playground.md#playground) | All examples |
+| **Gin / custom HTTP** | `server.Handler()` + `gin.WrapH` | [Gin integration](gin.md) | — |
 | **Subscriptions** | SDL + `SubscriptionResolvers` | [Modules — subscriptions](modules-and-resolvers.md#subscriptions) | [`examples/subscriptions`](../examples/subscriptions) |
 | **SDL merge** | Multiple `Module`s | [Modules — merging SDL](modules-and-resolvers.md#merging-sdl) | [`examples/basic`](../examples/basic) |
 

@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Subscriptions example — entrypoint
+|--------------------------------------------------------------------------
+|
+| Starts a gogql server with WebSocket subscriptions (graphql-transport-ws).
+|
+*/
+
 package main
 
 import (

@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| SDL merge tests
+|--------------------------------------------------------------------------
+|
+| Tests merging duplicate type Query definitions across module documents.
+|
+*/
+
 package merge_test
 
 import (

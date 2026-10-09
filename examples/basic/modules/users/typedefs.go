@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — users SDL
+|--------------------------------------------------------------------------
+|
+| Loads and merges schema/*.graphql via embed.FS for the users module.
+|
+*/
+
 package users
 
 import (

@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| Subscriptions example — events module
+|--------------------------------------------------------------------------
+|
+| Query + Subscription SDL, ResolverMap for ok, and SubscriptionResolvers
+| struct with Ticks channel resolver.
+|
+*/
+
 package events
 
 import (

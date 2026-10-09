@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| Database example — entrypoint
+|--------------------------------------------------------------------------
+|
+| Opens SQLite, builds MustApplication with loaders, JWT ContextFunc,
+| and serves GraphQL + playground.
+|
+*/
+
 package main
 
 import (

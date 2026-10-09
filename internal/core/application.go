@@ -1,4 +1,14 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| Application
+|--------------------------------------------------------------------------
+|
+| Composes gogql modules into one executable schema (MustApplication),
+| request context (injector, DataLoaders), and Execute/Subscribe helpers.
+|
+*/
+
+package core
 
 import (
 	"context"

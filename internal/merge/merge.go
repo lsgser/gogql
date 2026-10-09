@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| SDL merge
+|--------------------------------------------------------------------------
+|
+| Merges GraphQL SDL from multiple modules, normalizes duplicate Query roots,
+| validates with gqlparser, and returns one executable schema string.
+|
+*/
+
 package merge
 
 import (

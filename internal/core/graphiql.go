@@ -1,4 +1,13 @@
-package gogql
+/*
+|--------------------------------------------------------------------------
+| GraphiQL page
+|--------------------------------------------------------------------------
+|
+| Embedded GraphiQL HTML template served at the playground route.
+|
+*/
+
+package core
 
 import "fmt"
 

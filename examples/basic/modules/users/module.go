@@ -1,3 +1,12 @@
+/*
+|--------------------------------------------------------------------------
+| Basic example — users module wiring
+|--------------------------------------------------------------------------
+|
+| Approach B: connects embedded schema SDL and resolvers.go to MustModule.
+|
+*/
+
 package users
 
 import "github.com/lsgser/gogql"
