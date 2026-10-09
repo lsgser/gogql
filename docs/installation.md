@@ -9,7 +9,17 @@ gogql is published as a Go module from [github.com/lsgser/gogql](https://github.
 
 ## Install the library
 
-In your project directory:
+`go get` only works **inside a Go module** (a folder that contains `go.mod`). It does not work from your home directory, from a random clone path without `go mod init`, or from the gogql repo root unless that repo is your app module.
+
+**New app:**
+
+```bash
+mkdir my-api && cd my-api
+go mod init github.com/you/my-api   # any module path you own
+go get github.com/lsgser/gogql@latest
+```
+
+**Existing app:** `cd` to the directory that already has `go.mod`, then:
 
 ```bash
 go get github.com/lsgser/gogql@latest
@@ -194,6 +204,7 @@ You do not need to add these manually unless you use them directly (e.g. `datalo
 
 | Issue | What to try |
 |-------|-------------|
+| `go.mod file not found` / `go get is no longer supported outside a module` | Run `go mod init <your/module/path>` in your **app** directory first, then `go get` again. To install the **CLI** without an app module, use `go install github.com/lsgser/gogql/cmd/gogql@latest`. |
 | `module github.com/lsgser/gogql: not found` | Confirm the repo is pushed to GitHub and your `GOPROXY` can reach it (`go env GOPROXY`). |
 | Empty module cache | Run `go get github.com/lsgser/gogql@latest` again after the first push to the default branch. |
 | Playground cannot reach API | Use the same host/port; playground calls `window.location.origin + "/graphql"` by default. |
