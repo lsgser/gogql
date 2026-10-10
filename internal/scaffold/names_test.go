@@ -1,3 +1,13 @@
+/*
+|--------------------------------------------------------------------------
+| Name helper tests
+|--------------------------------------------------------------------------
+|
+| Unit tests for SanitizePackageName, TypeName, and QueryFieldNames used
+| when scaffolding domain modules from CLI arguments.
+|
+*/
+
 package scaffold
 
 import "testing"

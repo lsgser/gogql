@@ -3,7 +3,9 @@
 | Basic example — users resolvers
 |--------------------------------------------------------------------------
 |
-| ResolverMap and User type for the user(id) query field.
+| ResolverMap Query handlers and GraphQL User struct. No service layer in this
+| demo—returns stub data directly. Compare with user.resolvers.go + service in
+| gogql init output.
 |
 */
 

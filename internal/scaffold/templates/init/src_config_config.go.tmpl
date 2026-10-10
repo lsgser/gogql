@@ -1,0 +1,48 @@
+/*
+|--------------------------------------------------------------------------
+| Application configuration
+|--------------------------------------------------------------------------
+|
+| Environment-driven settings for HTTP listen address, GraphQL security
+| (MaxDepth), and gogql.ServerConfig (paths, playground, optional ContextFunc).
+| Keeps operational concerns out of resolvers; extend with DATABASE_URL,
+| feature flags, or CORS policy as your product grows.
+|
+| Wire utils.AuthContextFunc into ServerConfig when JWT/session auth is ready.
+|
+*/
+
+package config
+
+import (
+	"os"
+
+	"github.com/lsgser/gogql"
+)
+
+// HTTPAddr returns the listen address (env HTTP_ADDR, default :8080).
+func HTTPAddr() string {
+	if v := os.Getenv("HTTP_ADDR"); v != "" {
+		return v
+	}
+	return ":8080"
+}
+
+// MaxQueryDepth returns the GraphQL max depth limit.
+func MaxQueryDepth() int {
+	return 15
+}
+
+// ServerConfig builds gogql HTTP settings for this app.
+func ServerConfig() gogql.ServerConfig {
+	return gogql.ServerConfig{
+		GraphQLPath: "/graphql",
+		HealthPath:  "/health",
+		Playground: &gogql.PlaygroundConfig{
+			Enabled: true,
+			Path:    "/playground",
+			UI:      gogql.PlaygroundGraphiQL,
+		},
+		// ContextFunc: utils.AuthContextFunc, // optional — see src/utils/auth.go
+	}
+}

@@ -3,7 +3,11 @@
 | Template rendering
 |--------------------------------------------------------------------------
 |
-| Executes embedded scaffold templates into project files.
+| Loads text/template files from the embedded FS, executes them with
+| moduleTemplateData or registry data, and writes bytes via writeFileIfMissing
+| (respects -force). Shared by Init and module generators.
+|
+| Key funcs: renderTemplate, writeFileIfMissing, moduleData.
 |
 */
 

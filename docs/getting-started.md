@@ -1,22 +1,61 @@
 # Getting started
 
-This guide walks through a minimal GraphQL server with **SDL modules**, an HTTP endpoint, and the **playground**.
+This guide gets you to a running GraphQL server with **SDL modules**, HTTP **`/graphql`**, and the **playground**.
 
-## 1. Create a project
+## Path 1 — Scaffold (recommended)
+
+Create a project with the default **`src/`** layout ([Project layout](project-layout.md)):
+
+```bash
+go install github.com/lsgser/gogql/cmd/gogql@latest
+# or: go get -tool github.com/lsgser/gogql/cmd/gogql@latest  (inside your module)
+
+gogql init my-api -module github.com/you/my-api -gogql=
+cd my-api
+go mod tidy
+go run .
+```
+
+- GraphQL: [http://localhost:8080/graphql](http://localhost:8080/graphql)
+- Playground: [http://localhost:8080/playground](http://localhost:8080/playground)
+
+Try:
+
+```graphql
+query {
+  user(id: "1") {
+    id
+    name
+    email
+  }
+}
+```
+
+Add another domain:
+
+```bash
+go tool gogql module add product   # if go.mod has tool github.com/lsgser/gogql/cmd/gogql
+# or: gogql module add product
+go run .
+```
+
+See [Installation — CLI commands](installation.md#commands) for `module typedefs`, `module resolvers`, and flags.
+
+## Path 2 — Manual minimal server
+
+Use this when you want a single file or a custom folder tree without the CLI.
+
+### 1. Create a module
+
+A **module** is SDL plus resolvers. Types are written in GraphQL, not as Go structs for the schema itself.
+
+**Approach A** — inline SDL and `ResolverMap` in one place ([Modules & resolvers](modules-and-resolvers.md#approach-a--inline-module-backward-compatible)):
 
 ```bash
 mkdir my-api && cd my-api
 go mod init github.com/you/my-api
 go get github.com/lsgser/gogql@latest
 ```
-
-Or scaffold from the gogql repo: [Installation — CLI](installation.md#install-the-cli-optional).
-
-## 2. Define a module (GraphQL SDL)
-
-A **module** is a slice of schema plus resolvers. Types are written in GraphQL, not as Go structs for the schema itself.
-
-The snippet below uses **Approach A** (inline SDL + resolvers in one place)—fully supported and the simplest start. When a module grows, you can split into `.graphql` files and `resolvers.go` without changing the rest of the app ([Modules & resolvers — two approaches](modules-and-resolvers.md#two-ways-to-organize-a-module)).
 
 ```go
 package main
@@ -71,24 +110,13 @@ func main() {
 }
 ```
 
-## 3. Run and query
+### 2. Run and query
 
 ```bash
 go run .
 ```
 
-Open [http://localhost:8080/playground](http://localhost:8080/playground) and run:
-
-```graphql
-query {
-  user(id: "1") {
-    id
-    name
-  }
-}
-```
-
-Or POST JSON to `http://localhost:8080/graphql`:
+Or POST JSON:
 
 ```bash
 curl -s -X POST http://localhost:8080/graphql \
@@ -96,12 +124,14 @@ curl -s -X POST http://localhost:8080/graphql \
   -d '{"query":"{ user(id: \"1\") { id name } }"}'
 ```
 
-## 4. Multiple modules
+## Multiple modules
 
-Each module can declare its own `type Query { ... }`. gogql merges them (see [Modules & resolvers](modules-and-resolvers.md)).
+Each module can declare its own `type Query { ... }`. gogql merges them ([Modules & resolvers — merging SDL](modules-and-resolvers.md#merging-sdl)). In the **scaffold**, register modules in **`src/schema/modules.go`** (updated by the CLI); in manual apps, pass a slice to **`ApplicationConfig.Modules`**.
 
-## 5. What’s next
+## What’s next
 
-- [Modules & resolvers](modules-and-resolvers.md) — inline vs split modules, providers, DataLoaders, subscriptions
-- [Server & playground](server-and-playground.md) — paths, Apollo Sandbox, depth limits, WebSockets
-- [`examples/basic`](../examples/basic) in the repository
+- [Project layout](project-layout.md) — default `src/` tree, domain files, CLI generators
+- [Modules & resolvers](modules-and-resolvers.md) — inline vs split SDL, service/model layers, DI, loaders, subscriptions
+- [Server & playground](server-and-playground.md) — paths, WebSocket, depth limits
+- [Features](features.md) — capability index
+- [`examples/basic`](../examples/basic) — mixed inline + split modules without `src/`

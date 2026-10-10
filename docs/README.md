@@ -6,8 +6,9 @@
 
 | Document | Description |
 |----------|-------------|
-| [Installation](installation.md) | Requirements, `go get`, repo & project folder layout, CLI |
-| [Getting started](getting-started.md) | First module, server, playground |
+| [Installation](installation.md) | Requirements, `go get`, repo layout, CLI install |
+| [Project layout](project-layout.md) | Default **`src/`** scaffold, domain modules, CLI generators |
+| [Getting started](getting-started.md) | **`gogql init`** or manual first server |
 | **[Features](features.md)** | **DataLoaders, depth limits, DI, JWT, subscriptions (index)** |
 | [Modules & resolvers](modules-and-resolvers.md) | SDL modules, `ResolverMap`, DI, DataLoaders |
 | [Server & playground](server-and-playground.md) | HTTP, playground, subscriptions, `MaxDepth` |
@@ -17,7 +18,7 @@
 
 ## Examples in the repo
 
-- [`examples/basic`](../examples/basic) — single module + playground
+- [`examples/basic`](../examples/basic) — mixed inline + split modules (flat `modules/`)
 - [`examples/subscriptions`](../examples/subscriptions) — WebSocket subscriptions
 - [`examples/database`](../examples/database) — SQLite + repository + JWT
 

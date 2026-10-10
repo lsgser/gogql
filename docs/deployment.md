@@ -19,9 +19,11 @@
 From your app module (not the gogql repo itself, unless you ship an example):
 
 ```bash
-go build -o api ./cmd/api   # or go build -o api .
+go build -o api .             # gogql init: main.go at repo root, logic in src/
 ./api
 ```
+
+Scaffolded apps use **`src/config`** for `HTTP_ADDR` and server settings ([Project layout](project-layout.md)).
 
 Cross-compile for Linux servers:
 
@@ -43,11 +45,12 @@ Or use `http.ListenAndServe(addr, server.Handler())` if you add custom middlewar
 
 ## Production server configuration
 
+In a **`gogql init`** app, toggle playground and wire auth in **`src/config/config.go`** (`Playground.Enabled: false`, `ContextFunc: utils.AuthContextFunc`). The same settings apply if you call `NewServer` manually:
+
 ```go
 app := gogql.MustApplication(gogql.ApplicationConfig{
     Modules:  modules,
     Security: gogql.SecurityConfig{MaxDepth: 15},
-    // SchemaOpts: []graphql.SchemaOpt{ graphql.RestrictIntrospection(true) },
 })
 
 server := gogql.NewServer(app, gogql.ServerConfig{

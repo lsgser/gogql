@@ -1,0 +1,30 @@
+/*
+|--------------------------------------------------------------------------
+| User domain — gogql module wiring
+|--------------------------------------------------------------------------
+|
+| Connects user.graphql SDL and user.resolvers.go into one gogql.Module.
+| ID "user" is used in logs and merge diagnostics. Add Providers here when
+| you inject repositories via gogql.MustGet in resolvers.
+|
+*/
+
+package user
+
+import (
+	_ "embed"
+
+	"github.com/lsgser/gogql"
+)
+
+//go:embed user.graphql
+var userSDL string
+
+// Module registers the user domain GraphQL module.
+func Module() *gogql.Module {
+	return gogql.MustModule(gogql.ModuleConfig{
+		ID:        "user",
+		TypeDefs:  userSDL,
+		Resolvers: resolvers(),
+	})
+}

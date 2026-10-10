@@ -3,7 +3,11 @@
 | CLI metadata
 |--------------------------------------------------------------------------
 |
-| Command names, summaries, and version string for the gogql binary.
+| Single source of truth for gogql command names, one-line summaries, usage
+| strings, and Version. cmd/gogql/main.go prints Commands on version/help;
+| keep this list updated when adding subcommands.
+|
+| Key vars: Version, Commands.
 |
 */
 
@@ -22,27 +26,27 @@ type Command struct {
 var Commands = []Command{
 	{
 		Name:    "init",
-		Summary: "Scaffold a new GraphQL server project",
+		Summary: "Scaffold a new server (default src/ layout: common, modules, schema, config, utils)",
 		Usage:   "gogql init [directory] [-module path] [-gogql replace]",
 	},
 	{
 		Name:    "module add",
-		Summary: "Create a module (module.go, typedefs.go, resolvers.go, schema/)",
+		Summary: "Create a domain module (*.graphql, *.resolvers.go, *.model.go, *.service.go)",
 		Usage:   "gogql module add <name> [-force]",
 	},
 	{
 		Name:    "module typedefs",
-		Summary: "Add typedefs.go and schema/*.graphql to a module",
+		Summary: "Add <name>.graphql SDL for a domain module",
 		Usage:   "gogql module typedefs <name> [-force]",
 	},
 	{
 		Name:    "module resolvers",
-		Summary: "Add resolvers.go (and module.go if missing)",
+		Summary: "Add resolver, model, and service files for a domain module",
 		Usage:   "gogql module resolvers <name> [-force]",
 	},
 	{
 		Name:    "module schema",
-		Summary: "Add schema/*.graphql SDL files only",
+		Summary: "Add domain .graphql SDL only (alias for module typedefs)",
 		Usage:   "gogql module schema <name> [-force]",
 	},
 	{

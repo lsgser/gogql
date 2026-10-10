@@ -1,17 +1,39 @@
 # Modules & resolvers
 
-## Two ways to organize a module
+## Ways to organize modules
 
-gogql stays **backward compatible**: existing code that passes a single `TypeDefs` string and `Resolvers` in one place continues to work unchanged. Optional fields (`TypeDefParts`, `TypeDefFiles`, `TypeDefsFS`) only add ways to build that same SDL string from multiple sources.
+gogql stays **backward compatible**: a single `TypeDefs` string and `Resolvers` in one place still works. Optional fields (`TypeDefParts`, `TypeDefFiles`, `TypeDefsFS`) build that same SDL from multiple sources. You can **mix styles** in one app ([`examples/basic`](../examples/basic)).
 
-You can **mix both styles in one app**—for example one module in a single file and another split across `schema/` and `resolvers.go` ([`examples/basic`](../examples/basic) does this).
+| | **Approach A — inline** | **Approach B — split files** | **Default scaffold (`gogql init`)** |
+|---|---|---|---|
+| Best for | Small modules, prototypes | Many types, `schema/` embed | Production-shaped **`src/`** apps |
+| SDL | One `TypeDefs` string | `typedefs.go`, embed, parts | `<domain>.graphql` in module folder |
+| Resolvers | Inline in `module.go` | `resolvers.go` | `<domain>.resolvers.go` |
+| Layers | Optional | Optional | `<domain>.model.go`, `<domain>.service.go` |
+| Registry | Your `main` | `modules/registry.go` | **`src/schema/modules.go`** (CLI) |
+| Examples | [`greeting`](../examples/basic/modules/greeting/module.go), [`database` users](../examples/database/modules/users/module.go) | [`users`](../examples/basic/modules/users) | [Project layout](project-layout.md) |
 
-| | **Approach A — inline (classic)** | **Approach B — split files (optional)** |
-|---|-----------------------------------|----------------------------------------|
-| Best for | Small modules, quick prototypes, tutorials | Larger features, many types, teams |
-| SDL | One `TypeDefs` string (raw string or const) | `.graphql` embed, `TypeDefParts`, or files |
-| Resolvers | Inline `ResolverMap` or struct in `module.go` | `resolvers.go` (+ optional `subscription.go`) |
-| Example in repo | [`greeting`](../examples/basic/modules/greeting/module.go), [`database` users](../examples/database/modules/users/module.go) | [`users`](../examples/basic/modules/users) |
+The scaffold is **convention only**—any folder tree works if you pass `[]*gogql.Module` to `MustApplication`.
+
+---
+
+## Default scaffold — domain module (`gogql init`)
+
+```text
+src/modules/user/
+├── module.go
+├── user.graphql
+├── user.resolvers.go
+├── user.model.go
+└── user.service.go
+```
+
+- **`user.graphql`** — SDL for this domain (types + `Query` fields; merged globally).
+- **`user.resolvers.go`** — `ResolverMap`; should call **`user.service.go`**, not SQL directly.
+- **`user.model.go`** — storage/record types.
+- **`src/schema/modules.go`** — `All()` and `LoaderFactories()`; updated by **`gogql module add`**.
+
+Shared scalars live in **`src/common`**. Full tree: [Project layout](project-layout.md).
 
 ---
 

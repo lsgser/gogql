@@ -3,7 +3,8 @@
 | DataLoader tests
 |--------------------------------------------------------------------------
 |
-| Tests per-request loader registry and LoadMany batching.
+| Ensures LoaderRegistry creates distinct loader instances per request context
+| and that LoadMany invokes the batch function once with all keys.
 |
 */
 

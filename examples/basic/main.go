@@ -3,8 +3,9 @@
 | Basic example — entrypoint
 |--------------------------------------------------------------------------
 |
-| Wires modules.All() into MustApplication and starts the HTTP server
-| with GraphiQL playground.
+| Demonstrates composing multiple gogql modules (inline greeting + split users)
+| into one MustApplication, setting MaxDepth, and serving GraphiQL at /playground.
+| Run: go run ./examples/basic from the repo root.
 |
 */
 

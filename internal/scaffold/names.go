@@ -3,7 +3,11 @@
 | Name helpers
 |--------------------------------------------------------------------------
 |
-| Converts CLI module names into Go package names and GraphQL type names.
+| Normalizes user input ("blog-posts", "Product") into safe Go package names,
+| exported GraphQL type names (User from users), and default query field names
+| (user / users, post / posts). Used by all module templates and SyncRegistry.
+|
+| Key funcs: SanitizePackageName, TypeName, QueryFieldNames.
 |
 */
 

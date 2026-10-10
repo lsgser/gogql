@@ -3,7 +3,8 @@
 | Database example — SQLite setup
 |--------------------------------------------------------------------------
 |
-| Opens SQLite, creates the users table, and seeds demo rows.
+| OpenSQLite configures modernc.org/sqlite, runs migrate() for schema, and
+| seed data. Called once from main before constructing UserRepository.
 |
 */
 

@@ -3,7 +3,13 @@
 | gogql CLI
 |--------------------------------------------------------------------------
 |
-| Project scaffolding and module generators (typedefs, resolvers, schema).
+| Entry point for the gogql command-line tool. Dispatches init (full project
+| scaffold), module subcommands (add, typedefs, resolvers, schema), version,
+| and help. Parses flags per subcommand and delegates file generation to
+| internal/scaffold. Install via go install github.com/lsgser/gogql/cmd/gogql
+| or pin with go get -tool in your app's go.mod.
+|
+| Subcommands are documented in internal/cli.Commands.
 |
 */
 

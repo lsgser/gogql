@@ -3,7 +3,9 @@
 | Database example — user repository
 |--------------------------------------------------------------------------
 |
-| SQL access layer for users (ByID, List) injected into gogql resolvers.
+| UserRepository wraps *sql.DB with ByID and List. Registered as a gogql
+| Provider on the users module and resolved in resolvers via MustGet or
+| passed into LoaderFactories for batched loads.
 |
 */
 

@@ -3,7 +3,9 @@
 | Basic example — module registry
 |--------------------------------------------------------------------------
 |
-| Lists all gogql modules composed into this demo application.
+| Single place that lists every Module passed to MustApplication. When you add
+| a domain, import its package and append Module() here—same role as
+| src/schema/modules.go in the gogql init scaffold.
 |
 */
 

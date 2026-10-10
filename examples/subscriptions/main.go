@@ -3,7 +3,9 @@
 | Subscriptions example — entrypoint
 |--------------------------------------------------------------------------
 |
-| Starts a gogql server with WebSocket subscriptions (graphql-transport-ws).
+| Serves HTTP GraphQL and graphql-transport-ws on the same path. Connect a
+| client with subprotocol graphql-transport-ws to exercise Subscription fields.
+| Run: go run ./examples/subscriptions
 |
 */
 

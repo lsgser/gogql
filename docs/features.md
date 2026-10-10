@@ -1,9 +1,10 @@
 # Features reference
 
-Quick index of cross-cutting gogql capabilities. Each feature works with **inline or split** modules ([Modules & resolvers](modules-and-resolvers.md#two-ways-to-organize-a-module)).
+Quick index of cross-cutting gogql capabilities. Works with **any** module layout ([Modules & resolvers](modules-and-resolvers.md#ways-to-organize-modules), [Project layout](project-layout.md)).
 
 | Feature | Configure on | Doc section | Example |
 |---------|----------------|-------------|---------|
+| **CLI scaffold** | `gogql init`, `gogql module add` | [Project layout](project-layout.md) | Generated `src/` tree |
 | **DataLoaders** | `ApplicationConfig.Loaders` | [Below](#dataloaders) | [`examples/database`](../examples/database) |
 | **Query depth limit** | `ApplicationConfig.Security` | [Below](#query-depth-limit) | [`examples/subscriptions`](../examples/subscriptions), [`examples/database`](../examples/database) |
 | **Dependency injection** | `ModuleConfig.Providers` | [Modules — DI](modules-and-resolvers.md#dependency-injection) | [`examples/database`](../examples/database) |

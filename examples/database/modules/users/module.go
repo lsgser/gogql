@@ -3,7 +3,9 @@
 | Database example — users module (inline)
 |--------------------------------------------------------------------------
 |
-| Approach A: inline TypeDefs, providers, ResolverMap, and user DataLoader.
+| Single-file module with inline SDL, Provide(repo), ResolverMap queries,
+| resolveMe using AuthClaimsFrom, and LoaderFactories for batched ByID.
+| Shows DI + auth + loaders without the src/ folder layout.
 |
 */
 

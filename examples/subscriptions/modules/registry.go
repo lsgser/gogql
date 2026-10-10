@@ -3,7 +3,7 @@
 | Subscriptions example — module registry
 |--------------------------------------------------------------------------
 |
-| Registers the events module for the subscriptions demo.
+| Returns only the events module; extend when adding more subscription domains.
 |
 */
 

@@ -3,7 +3,8 @@
 | Basic example — users SDL
 |--------------------------------------------------------------------------
 |
-| Loads and merges schema/*.graphql via embed.FS for the users module.
+| Loads schema/*.graphql from embed.FS via gogql.MustLoadTypeDefsFS. Equivalent
+| to co-located user.graphql in the init template; keeps SDL out of Go strings.
 |
 */
 

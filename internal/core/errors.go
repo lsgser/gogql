@@ -3,7 +3,11 @@
 | Errors
 |--------------------------------------------------------------------------
 |
-| Package-level sentinel errors for module and configuration validation.
+| Private sentinel errors returned from NewModule when ModuleConfig is invalid
+| (missing ID or empty type definitions). Keeps validation messages consistent
+| and avoids string matching in callers—MustModule surfaces them as panics.
+|
+| Vars: errModuleIDRequired, errModuleTypeDefsRequired.
 |
 */
 

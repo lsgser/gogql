@@ -1,0 +1,24 @@
+/*
+|--------------------------------------------------------------------------
+| Application entrypoint
+|--------------------------------------------------------------------------
+|
+| Minimal main package: delegates to src/app.Run() so wiring lives under src/
+| and this file stays a thin process entry (build with go build -o api .).
+| Replace or extend if you need custom signal handling or multiple servers.
+|
+*/
+
+package main
+
+import (
+	"log"
+
+	"{{.ModulePath}}/src/app"
+)
+
+func main() {
+	if err := app.Run(); err != nil {
+		log.Fatal(err)
+	}
+}

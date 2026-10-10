@@ -31,7 +31,7 @@ Library code lives under **`internal/core/`**; the repo root re-exports the publ
 - **Subscriptions** — [graphql-transport-ws](https://github.com/enisdenjo/graphql-ws) on the GraphQL endpoint
 - **DataLoaders** — request-scoped batched loaders
 - **Depth limit** — `SecurityConfig.MaxDepth`
-- **CLI** — `gogql init` scaffolds a new project
+- **CLI** — `gogql init` (`src/` layout), `gogql module add`, generators
 
 ## Quick start
 
@@ -54,7 +54,7 @@ log.Fatal(server.ListenAndServe(":8080"))
 - API: `http://localhost:8080/graphql`
 - Playground: `http://localhost:8080/playground`
 
-Step-by-step: [Getting started](docs/getting-started.md)
+Step-by-step: [Getting started](docs/getting-started.md) · Default folders: [Project layout](docs/project-layout.md)
 
 ## CLI
 
@@ -64,7 +64,7 @@ Same idea as [gofreight](https://github.com/lsgser/gofreight): install the **com
 go install github.com/lsgser/gogql/cmd/gogql@latest
 gogql version          # lists all commands
 gogql init my-api
-gogql module add posts # typedefs, resolvers, schema, registry
+gogql module add product   # domain module + src/schema/modules.go
 ```
 
 Or pin the CLI in your app with Go 1.24+: `go get -tool github.com/lsgser/gogql/cmd/gogql@latest` → `go tool gogql init my-api`. Scaffolded projects include the `tool` line in `go.mod`. See [Installation — CLI](docs/installation.md#install-the-cli-optional).
@@ -86,7 +86,8 @@ go run ./examples/database       # SQL, DataLoaders, JWT ContextFunc
 | [docs/README.md](docs/README.md) | Index |
 | [features.md](docs/features.md) | DataLoaders, depth limits, feature index |
 | [installation.md](docs/installation.md) | `go get`, CLI, local replace |
-| [getting-started.md](docs/getting-started.md) | First server |
+| [getting-started.md](docs/getting-started.md) | `gogql init` or manual server |
+| [project-layout.md](docs/project-layout.md) | Default `src/` tree, CLI generators |
 | [modules-and-resolvers.md](docs/modules-and-resolvers.md) | Modules, DI, loaders, subscriptions |
 | [server-and-playground.md](docs/server-and-playground.md) | HTTP, playground, WebSocket, limits |
 | [gin.md](docs/gin.md) | GraphQL with Gin alongside REST |

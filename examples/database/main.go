@@ -3,8 +3,9 @@
 | Database example — entrypoint
 |--------------------------------------------------------------------------
 |
-| Opens SQLite, builds MustApplication with loaders, JWT ContextFunc,
-| and serves GraphQL + playground.
+| Full stack demo: SQLite store, user repository, JWT ContextFunc on the server,
+| DataLoader batching in resolvers, and playground with Authorization header hint.
+| Run: go run ./examples/database
 |
 */
 

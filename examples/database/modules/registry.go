@@ -3,7 +3,8 @@
 | Database example — module registry
 |--------------------------------------------------------------------------
 |
-| Composes users module and exposes LoaderFactories for the application.
+| Wires modules.All() and merges LoaderFactories from the users module into
+| ApplicationConfig—pattern for apps with SQL + DataLoaders.
 |
 */
 

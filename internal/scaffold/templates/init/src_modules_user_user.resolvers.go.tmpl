@@ -1,0 +1,67 @@
+/*
+|--------------------------------------------------------------------------
+| User domain — GraphQL resolvers
+|--------------------------------------------------------------------------
+|
+| ResolverMap for Query.user and Query.users. Maps GraphQLUser to/from
+| UserRecord via the service layer—keep SQL/HTTP out of this file. Add field
+| resolvers with ResolverMap.Object("User", "field", fn) when the schema grows.
+|
+*/
+
+package user
+
+import (
+	"context"
+
+	"github.com/graph-gophers/graphql-go"
+	"github.com/lsgser/gogql"
+)
+
+func resolvers() *gogql.ResolverMap {
+	return gogql.NewResolverMap().
+		Query("user", resolveUser).
+		Query("users", resolveUsers)
+}
+
+func resolveUser(ctx context.Context, args struct{ ID graphql.ID }) (*GraphQLUser, error) {
+	rec, err := DefaultService().ByID(ctx, string(args.ID))
+	if err != nil {
+		return nil, err
+	}
+	return toGraphQL(rec), nil
+}
+
+func resolveUsers(ctx context.Context) ([]*GraphQLUser, error) {
+	recs, err := DefaultService().List(ctx)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*GraphQLUser, len(recs))
+	for i := range recs {
+		out[i] = toGraphQL(&recs[i])
+	}
+	return out, nil
+}
+
+// GraphQLUser is the GraphQL-facing shape (see user.model.go for persistence).
+type GraphQLUser struct {
+	ID    graphql.ID
+	Name  string
+	Email *string
+}
+
+func toGraphQL(rec *UserRecord) *GraphQLUser {
+	if rec == nil {
+		return nil
+	}
+	var email *string
+	if rec.Email != "" {
+		email = &rec.Email
+	}
+	return &GraphQLUser{
+		ID:    graphql.ID(rec.ID),
+		Name:  rec.Name,
+		Email: email,
+	}
+}

@@ -3,7 +3,9 @@
 | Database example — JWT auth
 |--------------------------------------------------------------------------
 |
-| Demo HS256 JWT minting and ServerConfig.ContextFunc for gogql.AuthClaims.
+| MintDemoToken for local testing and ContextFunc validating Bearer tokens,
+| attaching gogql.AuthClaims to request context for resolvers like "me".
+| DemoSecret is insecure—use os.Getenv("JWT_SECRET") in production.
 |
 */
 

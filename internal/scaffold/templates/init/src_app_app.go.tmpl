@@ -1,0 +1,38 @@
+/*
+|--------------------------------------------------------------------------
+| Application bootstrap
+|--------------------------------------------------------------------------
+|
+| Central runtime wiring (similar to src/index.ts in Node apps). Builds
+| gogql.MustApplication from schema.All(), attaches LoaderFactories and
+| SecurityConfig from config, creates NewServer with config.ServerConfig(),
+| and blocks on ListenAndServe. Add global middleware or tracing here.
+|
+| Package app is imported only from main.go at the repo root.
+|
+*/
+
+package app
+
+import (
+	"log"
+
+	"{{.ModulePath}}/src/config"
+	"{{.ModulePath}}/src/schema"
+	"github.com/lsgser/gogql"
+)
+
+// Run builds the GraphQL application and starts the HTTP server.
+func Run() error {
+	application := gogql.MustApplication(gogql.ApplicationConfig{
+		Modules:  schema.All(),
+		Loaders:  schema.LoaderFactories(),
+		Security: gogql.SecurityConfig{MaxDepth: config.MaxQueryDepth()},
+	})
+
+	server := gogql.NewServer(application, config.ServerConfig())
+
+	log.Println("GraphQL API:  http://localhost" + config.HTTPAddr() + "/graphql")
+	log.Println("Playground:   http://localhost" + config.HTTPAddr() + "/playground")
+	return server.ListenAndServe(config.HTTPAddr())
+}

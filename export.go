@@ -3,7 +3,11 @@
 | Public API
 |--------------------------------------------------------------------------
 |
-| Re-exports from internal/core so consumers import github.com/lsgser/gogql.
+| Stable import path github.com/lsgser/gogql re-exports types, constants, and
+| functions from internal/core via type aliases and forwarding funcs. Library
+| implementation lives in internal/core; add new public symbols here and in
+| internal/core together. Generic helpers MustGet and ProvideFactory are
+| wrapped explicitly because Go cannot alias generic funcs with var.
 |
 */
 

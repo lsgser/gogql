@@ -3,7 +3,8 @@
 | SDL merge tests
 |--------------------------------------------------------------------------
 |
-| Tests merging duplicate type Query definitions across module documents.
+| Asserts two modules each declaring "type Query { ... }" produce one valid
+| merged schema with both fields present—core graphql-modules behavior.
 |
 */
 

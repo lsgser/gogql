@@ -1,0 +1,19 @@
+/*
+|--------------------------------------------------------------------------
+| User domain — data model
+|--------------------------------------------------------------------------
+|
+| Persistence-layer types (UserRecord). Swap for database/sql rows, GORM
+| structs, or protobuf messages. Resolvers and services translate between
+| this layer and GraphQLUser in user.resolvers.go.
+|
+*/
+
+package user
+
+// UserRecord is the data-layer model (replace with SQL/ORM types as needed).
+type UserRecord struct {
+	ID    string
+	Name  string
+	Email string
+}

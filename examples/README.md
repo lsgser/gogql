@@ -1,30 +1,24 @@
 # gogql examples
 
-Each example uses **gogql modules** (`MustModule` → `MustApplication` → `NewServer`). Module code can be organized in two ways (see [docs](../docs/modules-and-resolvers.md#two-ways-to-organize-a-module)):
+Each example uses **`gogql.MustModule` → `gogql.MustApplication` → `gogql.NewServer`**. They teach library features with **flat `modules/`** trees (no `src/` wrapper).
 
-| Style | Layout |
-|-------|--------|
-| **A — inline** | One `module.go` with `TypeDefs` + `Resolvers` |
-| **B — split** | `module.go` + optional `typedefs.go`, `resolvers.go`, `schema/*.graphql` |
+For a **production-shaped starter**, use **`gogql init`** instead — see [docs/project-layout.md](../docs/project-layout.md).
 
-The CLI scaffold generates **B** for `users`; you can keep or simplify any module to **A**.
+## Module organization in examples
 
-```
-example/
-  main.go
-  modules/
-    registry.go
-    <name>/
-      module.go
-      ... optional split files ...
-```
+| Style | Layout | Where |
+|-------|--------|--------|
+| **A — inline** | One `module.go` with `TypeDefs` + `Resolvers` | [`greeting`](basic/modules/greeting/module.go), [`database` users](database/modules/users/module.go) |
+| **B — split** | `module.go` + `typedefs.go` + `resolvers.go` + `schema/*.graphql` | [`basic` users](basic/modules/users/) |
 
-Run from the repository root:
+The CLI **`gogql init`** generates a **`src/modules/<domain>/`** layout with `*.graphql`, `*.resolvers.go`, `*.model.go`, and `*.service.go` — different from these examples but the same gogql APIs.
+
+Run from the **repository root**:
 
 | Example | Command | Demonstrates |
 |---------|---------|--------------|
-| [basic](basic) | `go run ./examples/basic` | **Mixed A+B**: `users` split SDL/resolvers, `greeting` inline; merged `Query` |
-| [subscriptions](subscriptions) | `go run ./examples/subscriptions` | `SubscriptionResolvers`, WebSocket transport |
-| [database](database) | `go run ./examples/database` | **Inline module** + providers, SQL, JWT, DataLoaders |
+| [basic](basic) | `go run ./examples/basic` | Merged modules (inline + split), playground |
+| [subscriptions](subscriptions) | `go run ./examples/subscriptions` | `SubscriptionResolvers`, WebSocket |
+| [database](database) | `go run ./examples/database` | SQLite, providers, JWT, DataLoaders |
 
-All examples use **`gogql.MustModule` → `gogql.MustApplication` → `gogql.NewServer`** — no direct graph-gophers HTTP wiring.
+No direct graph-gophers HTTP wiring — always through **`gogql.NewServer`**.

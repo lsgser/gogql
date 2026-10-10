@@ -2,7 +2,7 @@
 
 [gogql](https://github.com/lsgser/gogql) ships a standard library `http.Handler` from `NewServer`. **[Gin](https://github.com/gin-gonic/gin)** can mount that handler next to REST routes with `gin.WrapH`, without changing how you define modules or the application.
 
-You still build the GraphQL stack the same way ([Getting started](getting-started.md)):
+You still build the GraphQL stack the same way ([Getting started](getting-started.md), [Project layout](project-layout.md)). Scaffolded apps centralize wiring in **`src/app/app.go`**:
 
 ```go
 app := gogql.MustApplication(gogql.ApplicationConfig{

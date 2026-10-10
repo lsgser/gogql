@@ -3,7 +3,15 @@
 | Project detection
 |--------------------------------------------------------------------------
 |
-| Finds the app module path (go.mod) and modules/ directory for generators.
+| Locates the user's gogql application on disk for CLI generators. Walks
+| upward from cwd to find go.mod, reads the module import path, then chooses
+| LayoutSrc (src/modules + src/schema/modules.go) or LayoutLegacy (modules/
+| + modules/registry.go). Exposes ModuleImportPrefix for generated imports.
+|
+| ModuleNames / moduleNamesSorted list domain folders; common/ is ordered first
+| in src layout. hasLoaderFactories scans *resolvers.go for LoaderFactories.
+|
+| Key types: Project, Layout. Key func: FindProject.
 |
 */
 
@@ -20,11 +28,22 @@ import (
 
 var modulePathRe = regexp.MustCompile(`^module\s+(\S+)`)
 
+// Layout describes the scaffolded project tree.
+type Layout int
+
+const (
+	LayoutSrc    Layout = iota // src/modules, src/schema/modules.go
+	LayoutLegacy               // modules/, modules/registry.go
+)
+
 // Project holds paths for a gogql application tree.
 type Project struct {
-	Root       string
-	ModulePath string
-	ModulesDir string
+	Root               string
+	ModulePath         string
+	Layout             Layout
+	ModulesDir         string
+	RegistryPath       string
+	ModuleImportPrefix string
 }
 
 // FindProject locates go.mod starting at dir (or cwd) and walking up.
@@ -47,12 +66,9 @@ func FindProject(dir string) (*Project, error) {
 			if err != nil {
 				return nil, err
 			}
-			modulesDir := filepath.Join(abs, "modules")
-			return &Project{
-				Root:       abs,
-				ModulePath: mp,
-				ModulesDir: modulesDir,
-			}, nil
+			p := &Project{Root: abs, ModulePath: mp}
+			p.resolveLayout()
+			return p, nil
 		}
 		parent := filepath.Dir(abs)
 		if parent == abs {
@@ -60,6 +76,21 @@ func FindProject(dir string) (*Project, error) {
 		}
 		abs = parent
 	}
+}
+
+func (p *Project) resolveLayout() {
+	srcModules := filepath.Join(p.Root, "src", "modules")
+	if st, err := os.Stat(srcModules); err == nil && st.IsDir() {
+		p.Layout = LayoutSrc
+		p.ModulesDir = srcModules
+		p.RegistryPath = filepath.Join(p.Root, "src", "schema", "modules.go")
+		p.ModuleImportPrefix = p.ModulePath + "/src/modules"
+		return
+	}
+	p.Layout = LayoutLegacy
+	p.ModulesDir = filepath.Join(p.Root, "modules")
+	p.RegistryPath = filepath.Join(p.Root, "modules", "registry.go")
+	p.ModuleImportPrefix = p.ModulePath + "/modules"
 }
 
 func readModulePath(goMod string) (string, error) {
@@ -78,22 +109,9 @@ func readModulePath(goMod string) (string, error) {
 	return "", fmt.Errorf("module path not found in %s", goMod)
 }
 
-// ModuleNames lists subdirectories of modules/ (excluding files).
-func (p *Project) ModuleNames() ([]string, error) {
-	entries, err := os.ReadDir(p.ModulesDir)
-	if err != nil {
-		if os.IsNotExist(err) {
-			return nil, fmt.Errorf("modules/ not found under %s (run gogql init first)", p.Root)
-		}
-		return nil, err
-	}
-	var names []string
-	for _, e := range entries {
-		if e.IsDir() {
-			names = append(names, e.Name())
-		}
-	}
-	return names, nil
+func hasDir(path string) bool {
+	st, err := os.Stat(path)
+	return err == nil && st.IsDir()
 }
 
 func (p *Project) moduleDir(name string) string {
@@ -101,9 +119,25 @@ func (p *Project) moduleDir(name string) string {
 }
 
 func (p *Project) hasLoaderFactories(pkg string) bool {
-	data, err := os.ReadFile(filepath.Join(p.ModulesDir, pkg, "resolvers.go"))
+	dir := filepath.Join(p.ModulesDir, pkg)
+	entries, err := os.ReadDir(dir)
 	if err != nil {
 		return false
 	}
-	return strings.Contains(string(data), "func LoaderFactories()")
+	for _, e := range entries {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".go") {
+			continue
+		}
+		if !strings.Contains(e.Name(), "resolvers") {
+			continue
+		}
+		data, err := os.ReadFile(filepath.Join(dir, e.Name()))
+		if err != nil {
+			continue
+		}
+		if strings.Contains(string(data), "func LoaderFactories()") {
+			return true
+		}
+	}
+	return false
 }

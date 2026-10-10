@@ -3,8 +3,14 @@
 | Auth claims
 |--------------------------------------------------------------------------
 |
-| AuthClaims on context (WithAuthClaims, AuthClaimsFrom) for use after
-| JWT or session validation in ServerConfig.ContextFunc.
+| Minimal auth surface: AuthClaims holds Subject (typically JWT "sub").
+| ServerConfig.ContextFunc should validate credentials and call WithAuthClaims;
+| resolvers call AuthClaimsFrom or MustAuthClaims to gate fields like "me".
+|
+| gogql does not ship JWT or session middleware—only context storage so you
+| can plug any auth library (see examples/database and src/utils/auth.go).
+|
+| Key type: AuthClaims. Key funcs: WithAuthClaims, AuthClaimsFrom, MustAuthClaims.
 |
 */
 

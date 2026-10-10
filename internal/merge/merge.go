@@ -3,8 +3,13 @@
 | SDL merge
 |--------------------------------------------------------------------------
 |
-| Merges GraphQL SDL from multiple modules, normalizes duplicate Query roots,
-| validates with gqlparser, and returns one executable schema string.
+| Combines multiple module SDL strings into one document suitable for
+| graph-gophers ParseSchema. Uses vektah/gqlparser to parse each fragment,
+| merges duplicate root types (Query, Mutation, Subscription) via
+| normalizeRootTypes, strips redundant built-in scalar declarations, and
+| formats the result. Application calls merge.TypeDefs at startup.
+|
+| Key func: TypeDefs(sources []string) (string, error).
 |
 */
 

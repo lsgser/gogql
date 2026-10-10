@@ -3,7 +3,11 @@
 | GraphiQL page
 |--------------------------------------------------------------------------
 |
-| Embedded GraphiQL HTML template served at the playground route.
+| Static HTML template for the default GraphiQL playground. Loads React and
+| GraphiQL from unpkg, sets the default query endpoint to the server's
+| GraphQLPath, and is injected by playground.go when PlaygroundGraphiQL is selected.
+|
+| Key func: graphiQLPage(endpoint string) string.
 |
 */
 

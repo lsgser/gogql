@@ -3,7 +3,8 @@
 | Basic example — users module wiring
 |--------------------------------------------------------------------------
 |
-| Approach B: connects embedded schema SDL and resolvers.go to MustModule.
+| Approach B: MustModule with typeDefs() from embed and resolvers() from
+| resolvers.go—mirrors src/modules/<domain>/module.go in the CLI scaffold.
 |
 */
 

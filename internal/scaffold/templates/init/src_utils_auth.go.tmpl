@@ -1,0 +1,37 @@
+/*
+|--------------------------------------------------------------------------
+| Shared utilities — authentication
+|--------------------------------------------------------------------------
+|
+| Placeholder helpers for JWT, session cookies, or API keys. gogql stores
+| AuthClaims on context via WithAuthClaims; validate credentials in
+| AuthContextFunc and assign ServerConfig.ContextFunc in config.go.
+| Resolvers then use gogql.AuthClaimsFrom(ctx) for field-level authorization.
+|
+| This file is optional—delete or replace with your identity provider client.
+|
+*/
+
+package utils
+
+import (
+	"context"
+	"net/http"
+
+	"github.com/lsgser/gogql"
+)
+
+// AuthContextFunc is a placeholder for JWT or session validation.
+// Wire it in src/config/config.go ServerConfig.ContextFunc when ready.
+func AuthContextFunc(ctx context.Context, _ *http.Request) context.Context {
+	// claims, ok := parseAuthorization(r)
+	// if ok {
+	//     return gogql.WithAuthClaims(ctx, claims)
+	// }
+	return ctx
+}
+
+// ExampleClaims shows attaching auth after validation.
+func ExampleClaims(ctx context.Context, subject string) context.Context {
+	return gogql.WithAuthClaims(ctx, gogql.AuthClaims{Subject: subject})
+}

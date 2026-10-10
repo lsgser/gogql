@@ -2,7 +2,9 @@
 
 gogql does not ship an ORM or auth provider. You wire **standard Go dependencies** (e.g. `database/sql`, your JWT library) through **module providers** and **`ServerConfig.ContextFunc`**.
 
-Full working code: [`examples/database`](../examples/database) (`modules/`, `store/`, `auth/` + `gogql.MustApplication`).
+Full working code: [`examples/database`](../examples/database) (flat `modules/` + `store/` + `auth/`).
+
+Scaffolded apps: put JWT helpers in **`src/utils/auth.go`** and enable **`ContextFunc`** in **`src/config/config.go`** ([Project layout](project-layout.md)). Use **`user.model.go`** / **`user.service.go`** for SQL instead of inline resolvers as the app grows.
 
 ## Database access pattern
 

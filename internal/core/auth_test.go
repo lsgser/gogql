@@ -3,7 +3,8 @@
 | Auth tests
 |--------------------------------------------------------------------------
 |
-| Tests AuthClaims storage and retrieval on context.
+| Verifies WithAuthClaims round-trips through AuthClaimsFrom / MustAuthClaims
+| on context, matching how ServerConfig.ContextFunc attaches identity.
 |
 */
 

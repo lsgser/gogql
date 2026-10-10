@@ -1,0 +1,17 @@
+/*
+|--------------------------------------------------------------------------
+| {{.PackageName}} domain — data model
+|--------------------------------------------------------------------------
+|
+| {{.TypeName}}Record holds storage-oriented fields. Replace stubs with your
+| database schema; keep GraphQL-specific shapes in *.resolvers.go.
+|
+*/
+
+package {{.PackageName}}
+
+// {{.TypeName}}Record is the data-layer model for {{.PackageName}}.
+type {{.TypeName}}Record struct {
+	ID   string
+	Name string
+}

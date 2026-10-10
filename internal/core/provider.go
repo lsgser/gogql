@@ -3,8 +3,15 @@
 | Provider
 |--------------------------------------------------------------------------
 |
-| Module provider registration: Provide, ProvideToken, and ProvideFactory
-| for wiring services into the application injector.
+| Describes one binding in the application injector. ModuleConfig.Providers
+| lists Providers applied when the Application is constructed. Provide
+| registers a concrete value by reflect.Type; ProvideToken uses a string
+| key; ProvideFactory runs once per application and caches the result.
+|
+| Providers are the extension point for databases, HTTP clients, and domain
+| services shared across modules in the same process.
+|
+| Key type: Provider. Key funcs: Provide, ProvideToken, ProvideFactory.
 |
 */
 

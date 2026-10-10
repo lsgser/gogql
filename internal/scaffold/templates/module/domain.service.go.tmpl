@@ -1,0 +1,37 @@
+/*
+|--------------------------------------------------------------------------
+| {{.PackageName}} domain — business logic
+|--------------------------------------------------------------------------
+|
+| Service layer between resolvers and persistence. Implement ByID/List with
+| real repositories; register on gogql providers for testability.
+|
+*/
+
+package {{.PackageName}}
+
+import (
+	"context"
+	"fmt"
+)
+
+// Service holds business logic for the {{.PackageName}} domain.
+type Service struct{}
+
+func DefaultService() *Service {
+	return &Service{}
+}
+
+func (s *Service) ByID(_ context.Context, id string) (*{{.TypeName}}Record, error) {
+	if id == "" {
+		return nil, fmt.Errorf("{{.PackageName}}: id required")
+	}
+	return &{{.TypeName}}Record{ID: id, Name: "{{.TypeName}} " + id}, nil
+}
+
+func (s *Service) List(_ context.Context) ([]{{.TypeName}}Record, error) {
+	return []{{.TypeName}}Record{
+		{ID: "1", Name: "{{.TypeName}} 1"},
+		{ID: "2", Name: "{{.TypeName}} 2"},
+	}, nil
+}

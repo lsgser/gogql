@@ -95,19 +95,13 @@ gogql/
 │   └── database/
 │
 └── internal/
+    ├── cli/                # Command list + version (used by cmd/gogql)
     ├── core/               # Library implementation (package core)
-    │   ├── application.go  # MustApplication, Execute, Subscribe
-    │   ├── module.go       # MustModule, ModuleConfig, typedef loading
-    │   ├── server.go       # NewServer, HTTP, WebSocket
-    │   ├── resolver.go     # ResolverMap
-    │   ├── injector.go     # DI + MustGet
-    │   ├── loader.go       # DataLoader registry
-    │   ├── auth.go         # AuthClaims on context
-    │   ├── config.go       # Playground, Security (MaxDepth)
-    │   └── testdata/       # Tests for SDL loading
     ├── merge/              # SDL merge across modules
-    └── scaffold/           # gogql init templates
+    └── scaffold/           # init + module generators (embedded templates)
 ```
+
+Each `.go` file under `internal/core` and generated app files include **file headers** describing that file’s role. See [Project layout](project-layout.md) for the **application** tree created by **`gogql init`**, not the library repo itself.
 
 Applications still use a single import: `import "github.com/lsgser/gogql"`. You do not import `internal/core` from outside this module.
 
@@ -169,11 +163,11 @@ Run **`gogql version`** (or **`gogql help`**) to print the CLI version and the f
 
 | Command | Description |
 |---------|-------------|
-| `gogql init [dir]` | New app with `main.go`, `modules/users/` (split SDL + resolvers), playground |
-| `gogql module add <name>` | New module: `module.go`, `typedefs.go`, `resolvers.go`, `schema/*.graphql`; updates `modules/registry.go` |
-| `gogql module typedefs <name>` | Add `typedefs.go` + GraphQL schema files (creates `module.go` if missing) |
-| `gogql module resolvers <name>` | Add `resolvers.go` (+ `module.go` if missing); refreshes registry |
-| `gogql module schema <name>` | Add only `schema/*.graphql` under the module |
+| `gogql init [dir]` | New app with default **`src/`** layout (common, modules, schema, config, utils) |
+| `gogql module add <name>` | Domain module: `*.graphql`, `*.resolvers.go`, `*.model.go`, `*.service.go`, `module.go`; updates `src/schema/modules.go` |
+| `gogql module typedefs <name>` | Add `<name>.graphql` (creates `module.go` if missing) |
+| `gogql module resolvers <name>` | Add resolver, model, and service stubs; refreshes schema registry |
+| `gogql module schema <name>` | Same as `module typedefs` — SDL file only |
 | `gogql version` | Version and command summary |
 
 Module commands must run from your **app root** (where `go.mod` lives). Use **`-force`** to overwrite generated files. Optional **`-C /path/to/app`** sets the project directory.
@@ -182,7 +176,7 @@ Example after `gogql init my-api`:
 
 ```bash
 cd my-api
-go tool gogql module add posts
+go tool gogql module add product
 go run .
 ```
 
@@ -198,7 +192,6 @@ After `init` (global `gogql` or `go tool gogql`):
 ```bash
 cd my-api
 go mod tidy
-go mod tidy
 go run .
 ```
 
@@ -209,23 +202,31 @@ Running `gogql init my-api` creates a **standalone GraphQL server** that uses th
 ```text
 my-api/
 ├── go.mod
-├── main.go
-└── modules/
-    ├── registry.go
-    └── users/
-        ├── module.go           # wires typedefs + resolvers into gogql.MustModule
-        ├── typedefs.go         # embed / JoinTypeDefs / LoadTypeDefsFS
-        ├── resolvers.go        # ResolverMap and resolver funcs
-        └── schema/
-            ├── user.graphql
-            └── query.graphql
+├── main.go                      # calls src/app.Run()
+└── src/
+    ├── app/
+    │   └── app.go               # index — MustApplication + NewServer
+    ├── common/                  # shared SDL (scalars, base types)
+    │   ├── common.go
+    │   └── scalars.graphql
+    ├── modules/                 # one folder per domain
+    │   └── user/
+    │       ├── module.go        # gogql.MustModule wiring
+    │       ├── user.graphql
+    │       ├── user.resolvers.go
+    │       ├── user.model.go    # data layer types
+    │       └── user.service.go  # business logic
+    ├── schema/
+    │   └── modules.go           # merges All() + LoaderFactories()
+    ├── config/
+    │   └── config.go
+    └── utils/
+        └── auth.go              # optional ContextFunc helpers
 ```
 
-This matches the **split-file (Approach B)** layout from [`examples/basic/modules/users`](../examples/basic/modules/users). It is optional: a single `modules/<name>/module.go` with inline `TypeDefs` and `Resolvers` remains valid ([Approach A](modules-and-resolvers.md#approach-a--inline-module-backward-compatible)).
+This is the **default** scaffold only. gogql does not require `src/` — you can use flat `modules/`, inline SDL in one file, or any tree; wire **`gogql.MustModule`** → **`gogql.MustApplication`** → **`gogql.NewServer`** yourself ([Modules & resolvers](modules-and-resolvers.md#ways-to-organize-modules)). The CLI detects **`src/modules`** (new) or legacy **`modules/`** when running **`gogql module add`**.
 
-Add features by creating `modules/<name>/` and appending to `modules.All()`. Mix inline and split modules in the same project.
-
-With **`go get` only** (no `init`), use any layout; compose **`gogql.MustModule`** → **`gogql.MustApplication`** → **`gogql.NewServer`** in `main`.
+Add domains with **`gogql module add product`** (regenerates `src/schema/modules.go`) or copy the `user/` folder by hand.
 
 ## Transitive dependencies
 
@@ -247,4 +248,4 @@ You do not need to add these manually unless you use them directly (e.g. `datalo
 | Empty module cache | Run `go get github.com/lsgser/gogql@latest` again after the first push to the default branch. |
 | Playground cannot reach API | Use the same host/port; playground calls `window.location.origin + "/graphql"` by default. |
 
-Next: [Getting started](getting-started.md).
+Next: [Project layout](project-layout.md) · [Getting started](getting-started.md).

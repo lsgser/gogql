@@ -1,0 +1,58 @@
+/*
+|--------------------------------------------------------------------------
+| {{.PackageName}} domain — GraphQL resolvers
+|--------------------------------------------------------------------------
+|
+| Query.{{.QueryOne}} and Query.{{.QueryMany}} implementations. Delegates
+| to DefaultService(); maps {{.TypeName}}Record to GraphQL{{.TypeName}}.
+| Add LoaderFactories() in this file if you introduce DataLoaders.
+|
+*/
+
+package {{.PackageName}}
+
+import (
+	"context"
+
+	"github.com/graph-gophers/graphql-go"
+	"github.com/lsgser/gogql"
+)
+
+func resolvers() *gogql.ResolverMap {
+	return gogql.NewResolverMap().
+		Query("{{.QueryOne}}", resolve{{.TypeName}}).
+		Query("{{.QueryMany}}", resolve{{.TypeName}}List)
+}
+
+func resolve{{.TypeName}}(ctx context.Context, args struct{ ID graphql.ID }) (*GraphQL{{.TypeName}}, error) {
+	rec, err := DefaultService().ByID(ctx, string(args.ID))
+	if err != nil {
+		return nil, err
+	}
+	return toGraphQL{{.TypeName}}(rec), nil
+}
+
+func resolve{{.TypeName}}List(ctx context.Context) ([]*GraphQL{{.TypeName}}, error) {
+	recs, err := DefaultService().List(ctx)
+	if err != nil {
+		return nil, err
+	}
+	out := make([]*GraphQL{{.TypeName}}, len(recs))
+	for i := range recs {
+		out[i] = toGraphQL{{.TypeName}}(&recs[i])
+	}
+	return out, nil
+}
+
+// GraphQL{{.TypeName}} is the GraphQL-facing type.
+type GraphQL{{.TypeName}} struct {
+	ID   graphql.ID
+	Name string
+}
+
+func toGraphQL{{.TypeName}}(rec *{{.TypeName}}Record) *GraphQL{{.TypeName}} {
+	if rec == nil {
+		return nil
+	}
+	return &GraphQL{{.TypeName}}{ID: graphql.ID(rec.ID), Name: rec.Name}
+}

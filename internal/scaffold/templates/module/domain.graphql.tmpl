@@ -1,0 +1,9 @@
+type {{.TypeName}} {
+  id: ID!
+  name: String!
+}
+
+type Query {
+  {{.QueryOne}}(id: ID!): {{.TypeName}}
+  {{.QueryMany}}: [{{.TypeName}}!]!
+}

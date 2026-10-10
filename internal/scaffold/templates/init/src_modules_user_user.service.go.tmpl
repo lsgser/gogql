@@ -1,0 +1,39 @@
+/*
+|--------------------------------------------------------------------------
+| User domain — business logic
+|--------------------------------------------------------------------------
+|
+| Service methods called from resolvers (ByID, List). Replace in-memory stubs
+| with repository calls; register *Service or *Repository on gogql providers
+| and resolve via MustGet instead of DefaultService() when using DI.
+|
+*/
+
+package user
+
+import (
+	"context"
+	"fmt"
+)
+
+// Service contains business logic for the user domain.
+type Service struct{}
+
+// DefaultService returns the process-wide user service (swap for DI as you grow).
+func DefaultService() *Service {
+	return &Service{}
+}
+
+func (s *Service) ByID(_ context.Context, id string) (*UserRecord, error) {
+	if id == "" {
+		return nil, fmt.Errorf("user: id required")
+	}
+	return &UserRecord{ID: id, Name: "User " + id, Email: id + "@example.com"}, nil
+}
+
+func (s *Service) List(_ context.Context) ([]UserRecord, error) {
+	return []UserRecord{
+		{ID: "1", Name: "User 1", Email: "1@example.com"},
+		{ID: "2", Name: "User 2", Email: "2@example.com"},
+	}, nil
+}

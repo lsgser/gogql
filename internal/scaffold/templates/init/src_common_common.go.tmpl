@@ -1,0 +1,32 @@
+/*
+|--------------------------------------------------------------------------
+| Common GraphQL module
+|--------------------------------------------------------------------------
+|
+| Shared SDL fragment registered as its own gogql Module (ID "common"). Use
+| for scalars, directives, interfaces, and types referenced by every domain
+| module. SDL is loaded from scalars.graphql via embed; add more .graphql
+| files and extend the embed pattern or JoinTypeDefs as needed.
+|
+| Listed first in src/schema/modules.go so merge sees shared types early.
+|
+*/
+
+package common
+
+import (
+	_ "embed"
+
+	"github.com/lsgser/gogql"
+)
+
+//go:embed scalars.graphql
+var scalarsSDL string
+
+// Module registers shared schema fragments used across domain modules.
+func Module() *gogql.Module {
+	return gogql.MustModule(gogql.ModuleConfig{
+		ID:       "common",
+		TypeDefs: scalarsSDL,
+	})
+}

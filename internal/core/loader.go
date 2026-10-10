@@ -3,8 +3,16 @@
 | DataLoader
 |--------------------------------------------------------------------------
 |
-| Per-request DataLoader registry and helpers (LoaderFactories, LoadersFromContext,
-| NewStringKeyLoader) built on graph-gophers/dataloader.
+| Request-scoped batching and caching for resolver N+1 problems. ApplicationConfig
+| LoaderFactories registers named factories; each HTTP/GraphQL request gets a
+| fresh LoaderRegistry (see Application.RequestContext). Resolvers call
+| LoadersFromContext(ctx, "name") then Load / LoadMany on graph-gophers/dataloader.
+|
+| NewStringKeyLoader adapts a batch func keyed by string to dataloader.Keys.
+| LoaderRegistry lazily creates each loader once per request on first use.
+|
+| Key types: LoaderFactories, LoaderRegistry. Key funcs: NewLoaderRegistry,
+| WithLoaderRegistry, LoaderRegistryFrom, LoadersFromContext, NewStringKeyLoader.
 |
 */
 

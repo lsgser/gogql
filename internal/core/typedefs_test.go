@@ -3,7 +3,8 @@
 | Type definitions tests
 |--------------------------------------------------------------------------
 |
-| Tests backward-compatible inline TypeDefs and merged SDL from embed.FS.
+| Covers inline-only ModuleConfig (legacy API), JoinTypeDefs, TypeDefParts,
+| and LoadTypeDefsFS using testdata/schema/*.graphql embed fixtures.
 |
 */
 

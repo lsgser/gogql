@@ -3,8 +3,19 @@
 | Resolver map
 |--------------------------------------------------------------------------
 |
-| ResolverMap for Query/Mutation fields, dynamic root composition, and
-| merging module resolvers with subscription roots (compositeRoot).
+| ResolverMap collects field resolver funcs in a map-like API (Query,
+| Mutation, Object) instead of a large root struct. Used heavily in modular
+| apps and code generators. buildRoot synthesizes graph-gophers-compatible
+| root types; mergeResolvers combines ResolverMap and struct roots across
+| modules. Subscription fields on ResolverMap are rejected—use
+| ModuleConfig.SubscriptionResolvers with struct methods instead.
+|
+| compositeRoot attaches a subscription struct to a query/mutation root so
+| graph-gophers sees non-nil Query(), Mutation(), and Subscription() when
+| only some operations are defined. Field names are exported for GraphQL.
+|
+| Key type: ResolverMap. Key funcs: NewResolverMap, Query/Mutation/Object/
+| Subscription registrars, internal merge helpers.
 |
 */
 

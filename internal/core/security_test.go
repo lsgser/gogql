@@ -3,7 +3,8 @@
 | Security tests
 |--------------------------------------------------------------------------
 |
-| Tests SecurityConfig.MaxDepth query validation.
+| Confirms deeply nested queries fail validation when ApplicationConfig.Security
+| MaxDepth is set, while shallow queries still execute successfully.
 |
 */
 

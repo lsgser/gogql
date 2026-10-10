@@ -3,8 +3,18 @@
 | Server
 |--------------------------------------------------------------------------
 |
-| Yoga-style HTTP server: GraphQL POST/GET, playground route, health check,
-| optional graphql-transport-ws subscriptions, and ContextFunc (e.g. JWT).
+| HTTP serving layer inspired by GraphQL Yoga. NewServer registers routes on
+| an internal mux: GraphQL (POST JSON, GET query string, OPTIONS CORS),
+| optional playground HTML (GraphiQL or Apollo Sandbox), and a plain-text
+| health endpoint. When subscriptions are enabled, the GraphQL path also
+| accepts graphql-transport-ws upgrades via graph-gophers/graphql-transport-ws.
+|
+| ServerConfig.ContextFunc runs first on each HTTP or WS request (auth, tracing),
+| then Application.RequestContext attaches injector and DataLoaders. Handler()
+| exposes the mux for Gin or other wrappers; ListenAndServe is a convenience
+| wrapper around http.ListenAndServe.
+|
+| Key types: Server, ServerConfig. Key funcs: NewServer, Handler, ListenAndServe.
 |
 */
 

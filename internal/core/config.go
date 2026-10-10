@@ -3,8 +3,14 @@
 | Configuration types
 |--------------------------------------------------------------------------
 |
-| PlaygroundConfig, PlaygroundUI, SecurityConfig (MaxDepth), and helpers
-| that map security settings to graph-gophers schema options.
+| Shared config structs for Server and Application. PlaygroundConfig selects
+| GraphiQL vs Apollo Sandbox, path, and enabled flag. SecurityConfig maps to
+| graph-gophers MaxDepth via securitySchemaOpts during schema parse.
+|
+| playgroundSettings is internal normalized state derived from ServerConfig
+| (defaults, deprecated GraphiQL bool). PlaygroundUI constants identify UI kind.
+|
+| Key types: PlaygroundConfig, PlaygroundUI, SecurityConfig.
 |
 */
 

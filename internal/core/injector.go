@@ -3,8 +3,16 @@
 | Injector
 |--------------------------------------------------------------------------
 |
-| Request-scoped dependency injection (providers, MustGet, WithInjector)
-| similar to graphql-modules service locators.
+| Lightweight DI container: modules register Providers at application build
+| time; each request receives a child injector with resolved singletons and
+| lazy factories. Register by concrete type, string token, or ProvideFactory.
+|
+| MustGet[T] reads from context after WithInjector / Application.RequestContext.
+| Used to inject repositories, services, and config into resolvers without
+| global variables.
+|
+| Key types: Injector. Key funcs: newInjector, Register, RegisterToken, Get,
+| MustGet, WithInjector, InjectorFrom.
 |
 */
 

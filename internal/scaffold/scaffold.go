@@ -3,8 +3,15 @@
 | Project scaffold
 |--------------------------------------------------------------------------
 |
-| gogql init: writes a new server project from embedded templates
-| (main.go, modules/, schema/*.graphql).
+| Implements gogql init: writes the default src/ tree (app, common, config,
+| utils, modules/user, go.mod, main.go) from embedded templates, then
+| SyncRegistry to generate src/schema/modules.go. Templates live under
+| templates/init/ and are embedded via //go:embed all:templates.
+|
+| InitOptions control output directory, Go module path, and optional replace
+| directive for local gogql development.
+|
+| Key type: InitOptions. Key func: Init.
 |
 */
 
@@ -46,14 +53,18 @@ func Init(opts InitOptions) error {
 	}
 
 	files := map[string]string{
-		"main.go":                              "templates/main.go.tmpl",
+		"main.go":                              "templates/init/main.go.tmpl",
 		"go.mod":                               "templates/go.mod.tmpl",
-		"modules/registry.go":                  "templates/modules_registry.go.tmpl",
-		"modules/users/module.go":              "templates/modules_users_module.go.tmpl",
-		"modules/users/typedefs.go":            "templates/modules_users_typedefs.go.tmpl",
-		"modules/users/resolvers.go":           "templates/modules_users_resolvers.go.tmpl",
-		"modules/users/schema/user.graphql":    "templates/modules_users_schema_user.graphql.tmpl",
-		"modules/users/schema/query.graphql":   "templates/modules_users_schema_query.graphql.tmpl",
+		"src/app/app.go":                       "templates/init/src_app_app.go.tmpl",
+		"src/config/config.go":                 "templates/init/src_config_config.go.tmpl",
+		"src/utils/auth.go":                    "templates/init/src_utils_auth.go.tmpl",
+		"src/common/common.go":                 "templates/init/src_common_common.go.tmpl",
+		"src/common/scalars.graphql":           "templates/init/src_common_scalars.graphql.tmpl",
+		"src/modules/user/module.go":           "templates/init/src_modules_user_module.go.tmpl",
+		"src/modules/user/user.graphql":        "templates/init/src_modules_user_user.graphql.tmpl",
+		"src/modules/user/user.resolvers.go":   "templates/init/src_modules_user_user.resolvers.go.tmpl",
+		"src/modules/user/user.model.go":       "templates/init/src_modules_user_user.model.go.tmpl",
+		"src/modules/user/user.service.go":     "templates/init/src_modules_user_user.service.go.tmpl",
 	}
 
 	data := struct {
@@ -86,10 +97,10 @@ func Init(opts InitOptions) error {
 		}
 	}
 	proj, err := FindProject(dir)
-	if err == nil {
-		_ = SyncRegistry(proj)
+	if err != nil {
+		return err
 	}
-	return nil
+	return SyncRegistry(proj)
 }
 
 func mustAbs(path string) string {

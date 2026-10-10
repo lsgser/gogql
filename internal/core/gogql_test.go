@@ -3,7 +3,9 @@
 | Integration tests
 |--------------------------------------------------------------------------
 |
-| Tests merged SDL modules, ResolverMap, and multi-module Query composition.
+| End-to-end checks that multiple Module SDL fragments merge into one schema,
+| ResolverMap fields resolve, and provider injection is visible in resolvers.
+| Guards regressions in merge + resolver root wiring used by real applications.
 |
 */
 

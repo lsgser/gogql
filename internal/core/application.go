@@ -3,8 +3,19 @@
 | Application
 |--------------------------------------------------------------------------
 |
-| Composes gogql modules into one executable schema (MustApplication),
-| request context (injector, DataLoaders), and Execute/Subscribe helpers.
+| Builds the runnable GraphQL engine from one or more Module values. At
+| startup, NewApplication / MustApplication merges every module's SDL via
+| internal/merge, registers providers on a shared Injector, applies
+| SecurityConfig (e.g. MaxDepth) and optional graph-gophers SchemaOpts, then
+| parses a single executable *graphql.Schema.
+|
+| At request time, RequestContext clones the injector, instantiates
+| LoaderFactories once per loader name, and returns a context passed to
+| Execute, Subscribe, and the HTTP/WebSocket server. Resolvers use that
+| context for MustGet and LoadersFromContext.
+|
+| Key types: Application, ApplicationConfig. Key funcs: NewApplication,
+| MustApplication, Execute, Subscribe, ValidateStartup, SchemaSDL.
 |
 */
 

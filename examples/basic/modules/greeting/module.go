@@ -3,7 +3,9 @@
 | Basic example — greeting module (inline)
 |--------------------------------------------------------------------------
 |
-| Approach A: single file with inline TypeDefs and ResolverMap (hello query).
+| Approach A: entire module in one file—TypeDefs string plus ResolverMap on
+| ModuleConfig. Use for tiny domains; split into .graphql + resolvers when
+| the module grows (see modules/users).
 |
 */
 

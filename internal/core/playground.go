@@ -3,7 +3,13 @@
 | Playground UI
 |--------------------------------------------------------------------------
 |
-| Renders GraphiQL and Apollo Sandbox HTML pages for ServerConfig.Playground.
+| Builds the HTML page returned at the playground route. renderPlayground
+| switches on PlaygroundUI (GraphiQL vs Apollo Sandbox), embedding CDN
+| scripts and pointing the UI at the configured GraphQL HTTP path.
+|
+| Used only from server.go handlePlayground; not a public API for apps.
+|
+| Key funcs: renderPlayground, apolloSandboxPage (GraphiQL HTML lives in graphiql.go).
 |
 */
 

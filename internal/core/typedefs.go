@@ -3,8 +3,16 @@
 | Type definitions (SDL)
 |--------------------------------------------------------------------------
 |
-| Merges module SDL from strings, files, and embed.FS (JoinTypeDefs,
-| LoadTypeDefsFS) for inline or split schema layouts.
+| Helpers for assembling GraphQL SDL before it reaches ModuleConfig.TypeDefs.
+| JoinTypeDefs concatenates fragments; LoadTypeDefsFS / MustLoadTypeDefsFS read
+| sorted *.graphql from embed.FS or os.DirFS (typical split-file layout).
+| compileModuleTypeDefs runs inside NewModule to merge inline and file-based
+| sources configured on ModuleConfig.
+|
+| Consumers and the gogql CLI use these when schema lives beside resolvers
+| (e.g. user.graphql) instead of one giant string constant.
+|
+| Key funcs: JoinTypeDefs, LoadTypeDefsFS, MustLoadTypeDefsFS, compileModuleTypeDefs.
 |
 */
 

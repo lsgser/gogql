@@ -3,8 +3,17 @@
 | Module
 |--------------------------------------------------------------------------
 |
-| Defines a GraphQL module: SDL type definitions, resolvers, providers,
-| and optional subscription resolvers (ModuleConfig / MustModule).
+| A Module is one composable slice of schema (graphql-modules style): SDL
+| text, resolver root (struct or ResolverMap), optional SubscriptionResolvers
+| (struct methods only), and Providers for DI. Multiple modules each declare
+| partial Query/Mutation types; merge combines them into one schema.
+|
+| ModuleConfig supports inline TypeDefs or split layouts via TypeDefParts,
+| TypeDefFiles, and TypeDefsFS without breaking older single-string APIs.
+| NewModule validates ID and SDL; MustModule panics on error for init code.
+|
+| Key types: Module, ModuleConfig. Key funcs: NewModule, MustModule, ID,
+| TypeDefs.
 |
 */
 

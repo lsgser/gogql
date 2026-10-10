@@ -3,8 +3,9 @@
 | Subscriptions example — events module
 |--------------------------------------------------------------------------
 |
-| Query + Subscription SDL, ResolverMap for ok, and SubscriptionResolvers
-| struct with Ticks channel resolver.
+| Demonstrates SubscriptionResolvers (struct method Ticks returning a channel)
+| alongside ResolverMap for Query—subscriptions cannot use ResolverMap.Subscription.
+| WebSocket context uses the same ContextFunc as HTTP when configured on Server.
 |
 */
 

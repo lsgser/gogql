@@ -3,7 +3,9 @@
 | Subscription tests
 |--------------------------------------------------------------------------
 |
-| Tests Application.Subscribe with SubscriptionResolvers struct methods.
+| Exercises Application.Subscribe with a module that uses SubscriptionResolvers
+| (struct methods), ensuring the subscription root is wired separately from
+| ResolverMap.
 |
 */
 
