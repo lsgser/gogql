@@ -13,7 +13,7 @@
 
 package cli
 
-const Version = "0.3.1"
+const Version = "0.3.3"
 
 // Command describes a gogql subcommand for help and version output.
 type Command struct {
