@@ -15,14 +15,18 @@
 
 package core
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func renderPlayground(settings playgroundSettings) (string, error) {
 	switch settings.ui {
 	case PlaygroundApolloSandbox:
 		return apolloSandboxPage(settings.graphqlPath), nil
 	case PlaygroundGraphiQL:
-		return graphiQLPage(settings.graphqlPath), nil
+		staticPrefix := strings.TrimSuffix(settings.path, "/") + "/static"
+		return graphiQLPage(settings.graphqlPath, staticPrefix), nil
 	default:
 		return "", fmt.Errorf("gogql: unknown playground UI %q", settings.ui)
 	}

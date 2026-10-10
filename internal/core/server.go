@@ -26,8 +26,10 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	graphqlws "github.com/graph-gophers/graphql-transport-ws"
+	"github.com/lsgser/gogql/internal/core/playground"
 )
 
 // Server is a Yoga-inspired HTTP server for GraphQL.
@@ -109,6 +111,12 @@ func NewServer(app *Application, cfg ServerConfig) *Server {
 
 	if settings.enabled {
 		s.mux.HandleFunc(settings.path, s.handlePlayground)
+		if settings.ui == PlaygroundGraphiQL {
+			staticPath := strings.TrimSuffix(settings.path, "/") + "/static/"
+			if h, err := playground.StaticHandler(); err == nil {
+				s.mux.Handle(staticPath, http.StripPrefix(staticPath, h))
+			}
+		}
 	}
 
 	s.mux.HandleFunc(health, func(w http.ResponseWriter, _ *http.Request) {

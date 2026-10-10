@@ -26,6 +26,7 @@ To run behind **[Gin](https://github.com/gin-gonic/gin)** (REST + GraphQL on one
 | `POST` | `GraphQLPath` | JSON body: `{ "query", "variables", "operationName" }` |
 | `GET` | `GraphQLPath` | Query string: `?query=...&variables=...` |
 | `GET` | Playground path | GraphiQL or Apollo Sandbox UI |
+| `GET` | `{PlaygroundPath}/static/*` | Embedded GraphiQL assets (React, CSS; no CDN) |
 | `GET` | `HealthPath` | Liveness text `ok` |
 | `OPTIONS` | `GraphQLPath` | CORS preflight |
 
@@ -35,8 +36,10 @@ CORS is permissive (`Access-Control-Allow-Origin: *`) for local development. Put
 
 | `PlaygroundUI` | Description |
 |----------------|-------------|
-| `PlaygroundGraphiQL` | Embedded GraphiQL (default) |
-| `PlaygroundApolloSandbox` | Embedded [Apollo Sandbox](https://www.apollographql.com/docs/apollo-sandbox) |
+| `PlaygroundGraphiQL` | GraphiQL (default); JS/CSS served from **`/playground/static/`** (bundled in gogql, works offline) |
+| `PlaygroundApolloSandbox` | [Apollo Sandbox](https://www.apollographql.com/docs/apollo-sandbox) (loads from Apollo CDN; requires network) |
+
+**GraphiQL** no longer depends on `unpkg.com`. Assets ship inside the library and are served from `{PlaygroundPath}/static/`. If you still see CDN errors, rebuild with a current gogql version or run from a fresh `go get`.
 
 Disable the playground:
 
